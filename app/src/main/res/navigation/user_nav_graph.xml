@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/user_nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.proyek_mad.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_courseDetailFragment"
+            app:destination="@id/courseDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/coursesFragment"
+        android:name="com.example.proyek_mad.CoursesFragment"
+        android:label="fragment_courses"
+        tools:layout="@layout/fragment_courses" >
+        <action
+            android:id="@+id/action_coursesFragment_to_courseDetailFragment"
+            app:destination="@id/courseDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/offlineCoursesFragment"
+        android:name="com.example.proyek_mad.OfflineCoursesFragment"
+        android:label="OfflineCoursesFragment" >
+        <action
+            android:id="@+id/action_offlineCoursesFragment_to_courseDetailFragment"
+            app:destination="@id/courseDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.proyek_mad.ProfileFragment"
+        android:label="ProfileFragment" >
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_coursesFragment"
+        app:destination="@id/coursesFragment" />
+    <action
+        android:id="@+id/action_global_homeFragment"
+        app:destination="@id/homeFragment" />
+    <action
+        android:id="@+id/action_global_offlineCoursesFragment"
+        app:destination="@id/offlineCoursesFragment" />
+    <action
+        android:id="@+id/action_global_profileFragment"
+        app:destination="@id/profileFragment" />
+    <fragment
+        android:id="@+id/courseDetailFragment"
+        android:name="com.example.proyek_mad.CourseDetailFragment"
+        android:label="CourseDetailFragment" >
+        <action
+            android:id="@+id/action_courseDetailFragment_to_moduleFragment"
+            app:destination="@id/moduleFragment" />
+        <action
+            android:id="@+id/action_courseDetailFragment_to_quizFragment"
+            app:destination="@id/quizFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.proyek_mad.EditProfileFragment"
+        android:label="EditProfileFragment" />
+    <fragment
+        android:id="@+id/moduleFragment"
+        android:name="com.example.proyek_mad.ModuleFragment"
+        android:label="fragment_module"
+        tools:layout="@layout/fragment_module" />
+    <fragment
+        android:id="@+id/quizFragment"
+        android:name="com.example.proyek_mad.QuizFragment"
+        android:label="fragment_quiz"
+        tools:layout="@layout/fragment_quiz" />
+</navigation>
