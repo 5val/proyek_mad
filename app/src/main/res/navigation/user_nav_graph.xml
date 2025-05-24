@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.proyek_mad.HomeFragment"
+        android:name="com.example.proyek_mad.ui.home.HomeFragment"
         android:label="HomeFragment" >
         <action
             android:id="@+id/action_homeFragment_to_courseDetailFragment"
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/coursesFragment"
-        android:name="com.example.proyek_mad.CoursesFragment"
+        android:name="com.example.proyek_mad.ui.listmateri.CoursesFragment"
         android:label="fragment_courses"
         tools:layout="@layout/fragment_courses" >
         <action
@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.proyek_mad.ProfileFragment"
+        android:name="com.example.proyek_mad.ui.profile.ProfileFragment"
         android:label="ProfileFragment" >
         <action
             android:id="@+id/action_profileFragment_to_editProfileFragment"
@@ -52,7 +52,7 @@
         app:destination="@id/profileFragment" />
     <fragment
         android:id="@+id/courseDetailFragment"
-        android:name="com.example.proyek_mad.CourseDetailFragment"
+        android:name="com.example.proyek_mad.ui.detailmateri.CourseDetailFragment"
         android:label="CourseDetailFragment" >
         <action
             android:id="@+id/action_courseDetailFragment_to_moduleFragment"
@@ -63,16 +63,16 @@
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.example.proyek_mad.EditProfileFragment"
+        android:name="com.example.proyek_mad.ui.profile.EditProfileFragment"
         android:label="EditProfileFragment" />
     <fragment
         android:id="@+id/moduleFragment"
-        android:name="com.example.proyek_mad.ModuleFragment"
+        android:name="com.example.proyek_mad.ui.listkelas.ModuleFragment"
         android:label="fragment_module"
         tools:layout="@layout/fragment_module" />
     <fragment
         android:id="@+id/quizFragment"
-        android:name="com.example.proyek_mad.QuizFragment"
+        android:name="com.example.proyek_mad.ui.quiz.QuizFragment"
         android:label="fragment_quiz"
         tools:layout="@layout/fragment_quiz" />
 </navigation>
