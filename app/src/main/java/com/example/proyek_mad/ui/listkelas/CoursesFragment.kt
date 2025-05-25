@@ -1,4 +1,4 @@
-package com.example.proyek_mad.ui.listmateri
+package com.example.proyek_mad.ui.listkelas
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

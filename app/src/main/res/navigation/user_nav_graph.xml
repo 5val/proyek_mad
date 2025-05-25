@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/coursesFragment"
-        android:name="com.example.proyek_mad.ui.listmateri.CoursesFragment"
+        android:name="com.example.proyek_mad.ui.listkelas.CoursesFragment"
         android:label="fragment_courses"
         tools:layout="@layout/fragment_courses" >
         <action
@@ -67,12 +67,12 @@
         android:label="EditProfileFragment" />
     <fragment
         android:id="@+id/moduleFragment"
-        android:name="com.example.proyek_mad.ui.listkelas.ModuleFragment"
+        android:name="com.example.proyek_mad.ui.listmodule.ModuleFragment"
         android:label="fragment_module"
         tools:layout="@layout/fragment_module" />
     <fragment
         android:id="@+id/quizFragment"
         android:name="com.example.proyek_mad.ui.quiz.QuizFragment"
         android:label="fragment_quiz"
-        tools:layout="@layout/fragment_quiz" />
+        tools:layout="@layout/fragment_quiz" /><action android:id="@+id/action_global_moduleFragment" app:destination="@id/moduleFragment"/><action android:id="@+id/action_global_courseDetailFragment" app:destination="@id/courseDetailFragment"/>
 </navigation>

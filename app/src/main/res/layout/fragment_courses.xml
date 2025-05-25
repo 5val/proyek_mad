@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.listmateri.CoursesFragment">
+    tools:context=".ui.listkelas.CoursesFragment">
 
     <TextView
         android:id="@+id/tv_courses_title"
@@ -23,7 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
-        android:drawableStart="Search Course"
         android:drawablePadding="8dp"
         android:hint="Search Course"
         android:importantForAutofill="no"

@@ -1,4 +1,4 @@
-package com.example.proyek_mad.ui.listkelas
+package com.example.proyek_mad.ui.listmodule
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
