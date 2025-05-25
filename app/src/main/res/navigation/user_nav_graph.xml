@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/offlineCoursesFragment"
-        android:name="com.example.proyek_mad.OfflineCoursesFragment"
+        android:name="com.example.proyek_mad.ui.offlinecourse.OfflineCoursesFragment"
         android:label="OfflineCoursesFragment" >
         <action
             android:id="@+id/action_offlineCoursesFragment_to_courseDetailFragment"

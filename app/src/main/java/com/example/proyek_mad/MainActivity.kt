@@ -1,5 +1,6 @@
 package com.example.proyek_mad
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -17,5 +18,9 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         val navHost = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHost.navController
+        binding.button.setOnClickListener {
+            var intent = Intent(this, UserActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
