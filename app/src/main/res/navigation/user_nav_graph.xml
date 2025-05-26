@@ -74,5 +74,9 @@
         android:id="@+id/quizFragment"
         android:name="com.example.proyek_mad.ui.quiz.QuizFragment"
         android:label="fragment_quiz"
-        tools:layout="@layout/fragment_quiz" /><action android:id="@+id/action_global_moduleFragment" app:destination="@id/moduleFragment"/><action android:id="@+id/action_global_courseDetailFragment" app:destination="@id/courseDetailFragment"/>
+        tools:layout="@layout/fragment_quiz" >
+        <action
+            android:id="@+id/action_quizFragment_to_courseDetailFragment"
+            app:destination="@id/courseDetailFragment" />
+    </fragment><action android:id="@+id/action_global_moduleFragment" app:destination="@id/moduleFragment"/><action android:id="@+id/action_global_courseDetailFragment" app:destination="@id/courseDetailFragment"/>
 </navigation>

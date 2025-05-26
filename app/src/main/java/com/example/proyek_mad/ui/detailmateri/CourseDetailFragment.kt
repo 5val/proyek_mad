@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.navigateUp
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyek_mad.R
 import com.example.proyek_mad.data.Module
@@ -41,6 +42,10 @@ class CourseDetailFragment : Fragment() {
 //            var action = CourseDetailFragmentDirections.actionGlobalModuleFragment()
 //            findNavController().navigate(action)
 //        }
+
+        binding.btnStartQuiz.setOnClickListener {
+            findNavController().navigate(R.id.action_courseDetailFragment_to_quizFragment)
+        }
 
         binding.rvModules.adapter = courseDetailAdapter
         binding.rvModules.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)

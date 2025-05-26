@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="vm"
+            type="com.example.proyek_mad.ui.quiz.QuizViewModel" />
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.quiz.QuizFragment">
-
-    <Button
-        android:id="@+id/btnQuit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="#AFAEAE"
-        android:text="Quit"
-        android:textAllCaps="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvQuizTitle"
@@ -38,7 +32,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:text="Question 1 of 10"
+        android:text='@{"Question " + String.valueOf(vm.question.urutan_soal) + " of " + String.valueOf(vm.jmlQuestion)}'
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +76,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="What is the main benefit of using ConstraintLayout in Android development?" />
+                tools:text="@{vm.question.teks_soal}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
@@ -104,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:padding="12dp"
-            tools:text="Option 1" />
+            tools:text="@{vm.options[0].teks_pilihan_jawaban}" />
 
         <RadioButton
             android:id="@+id/rbAnswer2"
@@ -112,7 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:padding="12dp"
-            tools:text="Option 2" />
+            tools:text="@{vm.options[1].teks_pilihan_jawaban}" />
 
         <RadioButton
             android:id="@+id/rbAnswer3"
@@ -120,14 +114,14 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:padding="12dp"
-            tools:text="Option 3" />
+            tools:text="@{vm.options[2].teks_pilihan_jawaban}" />
 
         <RadioButton
             android:id="@+id/rbAnswer4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"
-            tools:text="Option 4" />
+            tools:text="@{vm.options[3].teks_pilihan_jawaban}" />
     </RadioGroup>
 
     <Button
@@ -142,4 +136,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/txtBatasWaktu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text='@{"Waktu: " + String.valueOf(vm.quiz.batas_waktu_pengerjaan_menit) + " menit"}'
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvQuizTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvQuizTitle" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

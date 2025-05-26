@@ -5,56 +5,91 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyek_mad.R
+import com.example.proyek_mad.data.Module
+import com.example.proyek_mad.data.Question
+import com.example.proyek_mad.databinding.FragmentCourseDetailBinding
+import com.example.proyek_mad.databinding.FragmentQuizBinding
+import com.example.proyek_mad.ui.detailmateri.CourseDetailAdapter
+import com.example.proyek_mad.ui.detailmateri.CourseDetailViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [QuizFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class QuizFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    lateinit var binding: FragmentQuizBinding
+    val viewModel: QuizViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_quiz, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_quiz, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment QuizFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            QuizFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.refresh()
+        binding.vm = viewModel
+        binding.lifecycleOwner = this
+
+        val observer = Observer<Question>{ it ->
+            binding.quizProgress.progress = viewModel.question.value.urutan_soal - 1
+        }
+        viewModel.question.observe(viewLifecycleOwner, observer)
+
+//        courseDetailAdapter.onItemClickListener =  {m ->
+//            var action = CourseDetailFragmentDirections.actionGlobalModuleFragment()
+//            findNavController().navigate(action)
+//        }
+
+//        binding.btnStartQuiz.setOnClickListener {
+//            findNavController().navigate(R.id.action_courseDetailFragment_to_quizFragment)
+//        }
+//
+//        binding.rvModules.adapter = courseDetailAdapter
+//        binding.rvModules.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+
+        if(viewModel.question.value.urutan_soal == viewModel.jmlQuestion) {
+            binding.btnSubmit.text = "Submit Answer"
+        } else {
+            binding.btnSubmit.text = "Next"
+        }
+
+        binding.quizProgress.max = viewModel.jmlQuestion
+
+        binding.rgAnswers.setOnCheckedChangeListener { group, checkedId ->
+            if(checkedId == R.id.rbAnswer1) {
+                viewModel.selectOption(viewModel.options.value[0].pilihan_id)
+            }else if(checkedId == R.id.rbAnswer2) {
+                viewModel.selectOption(viewModel.options.value[1].pilihan_id)
+            }else if(checkedId == R.id.rbAnswer3) {
+                viewModel.selectOption(viewModel.options.value[2].pilihan_id)
+            }else if(checkedId == R.id.rbAnswer4) {
+                viewModel.selectOption(viewModel.options.value[3].pilihan_id)
             }
+        }
+
+        binding.btnSubmit.setOnClickListener {
+            viewModel.submitAnswer()
+            if(viewModel.question.value.urutan_soal == viewModel.jmlQuestion) {
+                viewModel.finishQuiz()
+                findNavController().navigate(R.id.action_quizFragment_to_courseDetailFragment)
+            } else {
+                viewModel.changeQuestion()
+            }
+            binding.rgAnswers.clearCheck()
+            if(viewModel.question.value.urutan_soal == viewModel.jmlQuestion) {
+                binding.btnSubmit.text = "Submit Answer"
+            } else {
+                binding.btnSubmit.text = "Next"
+            }
+        }
     }
+
+
 }
