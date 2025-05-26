@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="vm"
+            type="com.example.proyek_mad.ui.quiz.QuizViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/txtResultTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hasil Kuis"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/txtNilaiQuiz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{"Nilai: " + String.valueOf(vm.nilaiUser)}'
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/txtResultTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/txtJawabanBenarQuiz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{"Jawaban Benar: " + String.valueOf(vm.jawabanBenar) + " dari " + String.valueOf(vm.jmlQuestion) + " soal"}'
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/txtNilaiQuiz"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/btnUlangi"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Ulangi Kuis"
+            app:layout_constraintTop_toBottomOf="@id/txtJawabanBenarQuiz"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="24dp" />
+
+        <Button
+            android:id="@+id/btnBackQuiz"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Kembali ke Menu Utama"
+            app:layout_constraintTop_toBottomOf="@id/btnUlangi"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="12dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

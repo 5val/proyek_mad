@@ -6,21 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyek_mad.R
-import com.example.proyek_mad.data.Module
 import com.example.proyek_mad.data.Question
-import com.example.proyek_mad.databinding.FragmentCourseDetailBinding
 import com.example.proyek_mad.databinding.FragmentQuizBinding
-import com.example.proyek_mad.ui.detailmateri.CourseDetailAdapter
-import com.example.proyek_mad.ui.detailmateri.CourseDetailViewModel
 
 class QuizFragment : Fragment() {
     lateinit var binding: FragmentQuizBinding
-    val viewModel: QuizViewModel by viewModels()
+    val viewModel: QuizViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,18 +37,6 @@ class QuizFragment : Fragment() {
             binding.quizProgress.progress = viewModel.question.value.urutan_soal - 1
         }
         viewModel.question.observe(viewLifecycleOwner, observer)
-
-//        courseDetailAdapter.onItemClickListener =  {m ->
-//            var action = CourseDetailFragmentDirections.actionGlobalModuleFragment()
-//            findNavController().navigate(action)
-//        }
-
-//        binding.btnStartQuiz.setOnClickListener {
-//            findNavController().navigate(R.id.action_courseDetailFragment_to_quizFragment)
-//        }
-//
-//        binding.rvModules.adapter = courseDetailAdapter
-//        binding.rvModules.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
 
         if(viewModel.question.value.urutan_soal == viewModel.jmlQuestion) {
             binding.btnSubmit.text = "Submit Answer"
@@ -78,7 +62,7 @@ class QuizFragment : Fragment() {
             viewModel.submitAnswer()
             if(viewModel.question.value.urutan_soal == viewModel.jmlQuestion) {
                 viewModel.finishQuiz()
-                findNavController().navigate(R.id.action_quizFragment_to_courseDetailFragment)
+                findNavController().navigate(R.id.action_quizFragment_to_quizResultFragment)
             } else {
                 viewModel.changeQuestion()
             }
@@ -90,6 +74,4 @@ class QuizFragment : Fragment() {
             }
         }
     }
-
-
 }

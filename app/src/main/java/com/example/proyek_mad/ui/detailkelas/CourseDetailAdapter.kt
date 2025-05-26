@@ -1,4 +1,4 @@
-package com.example.proyek_mad.ui.detailmateri
+package com.example.proyek_mad.ui.detailkelas
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -6,11 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyek_mad.data.Course
-import com.example.proyek_mad.data.MockDB
-import com.example.proyek_mad.data.Module
 import com.example.proyek_mad.databinding.ItemCourseCardBinding
-import com.example.proyek_mad.ui.detailmateri.CourseDetailAdapter
-import com.example.proyek_mad.ui.detailmateri.courseDetailDiffUtil
 
 class CourseDiffUtil : DiffUtil.ItemCallback<Course>() {
     override fun areItemsTheSame(oldItem: Course, newItem: Course): Boolean {

@@ -29,6 +29,7 @@ class QuizViewModel: ViewModel() {
     var jmlQuestion = 0
     var selectedOption: Int = -1
     var nilaiUser = 0
+    var jawabanBenar = 0
 
     fun refresh() {
         startQuiz()
@@ -51,6 +52,7 @@ class QuizViewModel: ViewModel() {
             var isBenar = option!!.apakah_benar
             if(isBenar == 1) {
                 nilaiUser += _question.value.poin_soal
+                jawabanBenar++
             }
             MockDB.quizAnswers.add(QuizAnswer(MockDB.quizAnswers.size + 1, MockDB.quizAttempts[MockDB.quizAttempts.size-1].attempt_id, _question.value.soal_id, selectedOption, isBenar))
         }
@@ -69,6 +71,7 @@ class QuizViewModel: ViewModel() {
     fun startQuiz(){
         viewModelScope.launch {
             nilaiUser = 0
+            jawabanBenar = 0
             _quiz.value = MockDB.quizzes.find { it.kelas_id == MockDB.selectedKelas }
             MockDB.quizAttempts.add(QuizAttempt(MockDB.quizAttempts.size + 1, 1, _quiz.value.kuis_id, 1, 0, 0))
             var questions = MockDB.questions.filter { it.kuis_id == _quiz.value.kuis_id }
