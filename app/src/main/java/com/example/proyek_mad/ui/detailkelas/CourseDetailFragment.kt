@@ -38,10 +38,10 @@ class CourseDetailFragment : Fragment() {
         }
         viewModel.materi.observe(viewLifecycleOwner, observer)
 
-//        courseDetailAdapter.onItemClickListener =  {m ->
-//            var action = CourseDetailFragmentDirections.actionGlobalModuleFragment()
-//            findNavController().navigate(action)
-//        }
+        courseDetailAdapter.onItemClickListener =  {m ->
+            var action = CourseDetailFragmentDirections.actionGlobalModuleFragment()
+            findNavController().navigate(action)
+        }
 
         binding.btnStartQuiz.setOnClickListener {
             findNavController().navigate(R.id.action_courseDetailFragment_to_quizFragment)

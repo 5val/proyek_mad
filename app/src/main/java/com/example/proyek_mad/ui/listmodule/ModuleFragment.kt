@@ -50,10 +50,10 @@ class ModuleFragment : Fragment() {
             viewModel.next()
         }
 
-//        binding.btnBackModule.setOnClickListener {
-//            var action = ModuleFragmentDirections.actionGlobalCourseDetailFragment()
-//            findNavController().navigate(action)
-//        }
+        binding.btnBackModules.setOnClickListener {
+            var action = ModuleFragmentDirections.actionGlobalCourseDetailFragment()
+            findNavController().navigate(action)
+        }
 
         val observer = Observer<List<Module>>{it ->
             binding.txtModuleTitleCard.setText(it[0].judul_materi.toString())
