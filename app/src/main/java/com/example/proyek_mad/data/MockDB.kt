@@ -77,35 +77,40 @@ object MockDB {
             kuis_id = 1,
             kelas_id = 101,
             judul_kuis = "Kuis Pengantar Pemrograman",
-            batas_waktu_pengerjaan_menit = "30",
+//            batas_waktu_pengerjaan_menit = "30",
+            batas_waktu_pengerjaan_menit = "2",
             nilai_minimum_lulus = 60
         ),
         Quiz(
             kuis_id = 2,
             kelas_id = 102,
             judul_kuis = "Kuis Struktur Data Lanjut",
-            batas_waktu_pengerjaan_menit = "40",
+//            batas_waktu_pengerjaan_menit = "40",
+            batas_waktu_pengerjaan_menit = "1",
             nilai_minimum_lulus = 65
         ),
         Quiz(
             kuis_id = 3,
             kelas_id = 201,
             judul_kuis = "Kuis Desain Antarmuka Pengguna",
-            batas_waktu_pengerjaan_menit = "30",
+//            batas_waktu_pengerjaan_menit = "30",
+            batas_waktu_pengerjaan_menit = "2",
             nilai_minimum_lulus = 70
         ),
         Quiz(
             kuis_id = 4,
             kelas_id = 202,
             judul_kuis = "Kuis Pengembangan Aplikasi Android",
-            batas_waktu_pengerjaan_menit = "45",
+//            batas_waktu_pengerjaan_menit = "45",
+            batas_waktu_pengerjaan_menit = "1",
             nilai_minimum_lulus = 70
         ),
         Quiz(
             kuis_id = 5,
             kelas_id = 301,
             judul_kuis = "Kuis Basis Data Relasional",
-            batas_waktu_pengerjaan_menit = "35",
+//            batas_waktu_pengerjaan_menit = "35",
+            batas_waktu_pengerjaan_menit = "1",
             nilai_minimum_lulus = 65
         )
     )

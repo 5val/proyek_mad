@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -37,6 +38,14 @@ class QuizFragment : Fragment() {
             binding.quizProgress.progress = viewModel.question.value.urutan_soal - 1
         }
         viewModel.question.observe(viewLifecycleOwner, observer)
+
+        val observer2 = Observer<String>{ it ->
+            if(viewModel.sisaWaktu.value == "00:00"){
+                Toast.makeText(requireContext(), "Waktu pengerjaan sudah habis", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_quizFragment_to_quizResultFragment)
+            }
+        }
+        viewModel.sisaWaktu.observe(viewLifecycleOwner, observer2)
 
         if(viewModel.question.value.urutan_soal == viewModel.jmlQuestion) {
             binding.btnSubmit.text = "Submit Answer"

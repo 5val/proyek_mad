@@ -6,5 +6,4 @@ data class User (
     val email:String,
     var password:String,
     var nama_lengkap:String,
-
 )

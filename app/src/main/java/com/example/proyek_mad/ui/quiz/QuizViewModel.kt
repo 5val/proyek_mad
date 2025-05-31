@@ -11,12 +11,17 @@ import com.example.proyek_mad.data.Question
 import com.example.proyek_mad.data.Quiz
 import com.example.proyek_mad.data.QuizAnswer
 import com.example.proyek_mad.data.QuizAttempt
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class QuizViewModel: ViewModel() {
     private val _quiz = MutableLiveData<Quiz>()
     val quiz: LiveData<Quiz>
         get() = _quiz
+
+    private val _quizQuestions = MutableLiveData<List<Question>>()
+    val quizQuestions: LiveData<List<Question>>
+        get() = _quizQuestions
 
     private val _question = MutableLiveData<Question>()
     val question: LiveData<Question>
@@ -25,6 +30,11 @@ class QuizViewModel: ViewModel() {
     private val _options = MutableLiveData<List<Option>>()
     val options: LiveData<List<Option>>
         get() = _options
+
+    private val _sisaWaktu = MutableLiveData<String>()
+    val sisaWaktu: LiveData<String>
+        get() = _sisaWaktu
+
 
     var jmlQuestion = 0
     var selectedOption: Int = -1
@@ -37,7 +47,7 @@ class QuizViewModel: ViewModel() {
     fun changeQuestion(){
         viewModelScope.launch {
             var urutan_sekarang = _question.value.urutan_soal + 1
-            _question.value = MockDB.questions.find { it.kuis_id == _quiz.value.kuis_id && it.urutan_soal == urutan_sekarang }
+            _question.value = quizQuestions.value.find { it.kuis_id == _quiz.value.kuis_id && it.urutan_soal == urutan_sekarang }
             _options.value = MockDB.options.filter { it.soal_id == _question.value.soal_id }
         }
     }
@@ -48,7 +58,7 @@ class QuizViewModel: ViewModel() {
     }
     fun submitAnswer(){
         viewModelScope.launch {
-            var option = MockDB.options.find { it.pilihan_id == selectedOption }
+            var option = _options.value.find { it.pilihan_id == selectedOption }
             var isBenar = option!!.apakah_benar
             if(isBenar == 1) {
                 nilaiUser += _question.value.poin_soal
@@ -70,14 +80,34 @@ class QuizViewModel: ViewModel() {
     }
     fun startQuiz(){
         viewModelScope.launch {
+            _sisaWaktu.value = ""
             nilaiUser = 0
             jawabanBenar = 0
             _quiz.value = MockDB.quizzes.find { it.kelas_id == MockDB.selectedKelas }
             MockDB.quizAttempts.add(QuizAttempt(MockDB.quizAttempts.size + 1, 1, _quiz.value.kuis_id, 1, 0, 0))
-            var questions = MockDB.questions.filter { it.kuis_id == _quiz.value.kuis_id }
-            jmlQuestion = questions.size
-            _question.value = MockDB.questions.find { it.kuis_id == _quiz.value.kuis_id && it.urutan_soal == 1 }
+            _quizQuestions.value = MockDB.questions.filter { it.kuis_id == _quiz.value.kuis_id }
+            jmlQuestion = _quizQuestions.value.size
+            _question.value = _quizQuestions.value.find { it.kuis_id == _quiz.value.kuis_id && it.urutan_soal == 1 }
             _options.value = MockDB.options.filter { it.soal_id == _question.value.soal_id }
+            startTimer(Integer.valueOf(_quiz.value.batas_waktu_pengerjaan_menit))
         }
     }
+    fun startTimer(batas_waktu: Int) {
+        val detik = batas_waktu * 60
+        viewModelScope.launch {
+            var sisaDetik = detik
+            while (sisaDetik >= 0) {
+                val min = sisaDetik / 60
+                val sec = sisaDetik % 60
+                _sisaWaktu.value = String.format("%02d:%02d", min, sec)
+                delay(1000L)
+                sisaDetik--
+                if (sisaDetik < 0) {
+                    _sisaWaktu.value = "00:00"
+                    finishQuiz()
+                }
+            }
+        }
+    }
+
 }

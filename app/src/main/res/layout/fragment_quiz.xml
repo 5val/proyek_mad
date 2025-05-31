@@ -141,7 +141,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text='@{"Waktu: " + String.valueOf(vm.quiz.batas_waktu_pengerjaan_menit) + " menit"}'
+        android:text='@{"Waktu: " + vm.sisaWaktu}'
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/tvQuizTitle"
         app:layout_constraintEnd_toEndOf="parent"

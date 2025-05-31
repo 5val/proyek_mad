@@ -19,7 +19,7 @@ class CourseDetailViewModel:ViewModel() {
         viewModelScope.launch {
             _materi.value = MockDB.modules.filter { it.kelas_id == MockDB.selectedKelas }
             var kuisKelas = MockDB.quizzes.find { it.kelas_id == MockDB.selectedKelas }
-            var kuisAttempts = MockDB.quizAttempts.filter { it.kuis_id == kuisKelas?.kuis_id }.sortedByDescending {
+            var kuisAttempts = MockDB.quizAttempts.filter { it.kuis_id == kuisKelas?.kuis_id && it.user_id == MockDB.currentUser.user_id}.sortedByDescending {
                 it.skor_diperoleh
             }
             if(kuisAttempts.size > 0) {
