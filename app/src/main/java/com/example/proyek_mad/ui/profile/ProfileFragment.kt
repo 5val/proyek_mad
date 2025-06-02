@@ -36,5 +36,8 @@ class ProfileFragment : Fragment() {
         binding.btnLogout.setOnClickListener {
             activity?.finish()
         }
+        viewModel.profile.observe(viewLifecycleOwner){it->
+            binding.user = it
+        }
     }
 }

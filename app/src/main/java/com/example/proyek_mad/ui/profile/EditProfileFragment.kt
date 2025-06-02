@@ -47,6 +47,9 @@ class EditProfileFragment : Fragment() {
         binding.btnCancel.setOnClickListener{
             findNavController().navigate(R.id.action_global_profileFragment)
         }
+        viewModel.profile.observe(viewLifecycleOwner){it->
+            binding.user = it
+        }
     }
 
 }
