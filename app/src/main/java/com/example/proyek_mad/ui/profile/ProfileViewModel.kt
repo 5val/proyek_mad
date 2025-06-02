@@ -7,9 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.proyek_mad.data.Course
 import com.example.proyek_mad.data.MockDB
 import com.example.proyek_mad.data.User
+import com.example.proyek_mad.data.repositories.MyRepository
 import kotlinx.coroutines.launch
 
-class ProfileViewModel:ViewModel() {
+class ProfileViewModel(
+    private val myRepository: MyRepository
+):ViewModel() {
     private val _profile = MutableLiveData<User>()
     val profile: LiveData<User>
         get() = _profile

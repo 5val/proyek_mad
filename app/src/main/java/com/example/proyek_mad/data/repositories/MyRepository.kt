@@ -1,5 +1,7 @@
 package com.example.proyek_mad.data.repositories
 
+import com.example.proyek_mad.data.Course
+import com.example.proyek_mad.data.Module
 import com.example.proyek_mad.data.sources.remote.receive.CourseJson
 import com.example.proyek_mad.data.sources.remote.receive.MaterialJson
 import com.example.proyek_mad.data.sources.remote.receive.UserJson
@@ -14,13 +16,13 @@ interface MyRepository {
     suspend fun editPengguna(userId: Int, request: EditPenggunaRequest): Result<BasicResponse>
 
     // Course and Enrollment Operations
-    suspend fun getAllPublishedCourses(): Result<List<CourseJson>>
-    suspend fun getCourseById(courseId: Int): Result<CourseJson>
-    suspend fun getOngoingCourse(userId: Int): Result<List<CourseJson>>
-    suspend fun getCompletedCourse(userId: Int): Result<List<CourseJson>>
+    suspend fun getAllPublishedCourses(): Result<List<Course>>
+    suspend fun getCourseById(courseId: Int): Result<Course>
+    suspend fun getOngoingCourse(userId: Int): Result<List<Course>>
+    suspend fun getCompletedCourse(userId: Int): Result<List<Course>>
     suspend fun enrollUserToCourse(kelasId: Int, userId: Int): Result<BasicResponse>
 
     // Material Operations
-    suspend fun getMaterialsByCourse(courseId: Int): Result<List<MaterialJson>>
-    suspend fun getMaterialById(materialId: Int): Result<MaterialJson>
+    suspend fun getMaterialsByCourse(courseId: Int): Result<List<Module>>
+    suspend fun getMaterialById(materialId: Int): Result<Module>
 }

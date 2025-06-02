@@ -6,9 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.proyek_mad.data.Course
 import com.example.proyek_mad.data.MockDB
+import com.example.proyek_mad.data.repositories.MyRepository
 import kotlinx.coroutines.launch
 
-class OfflineCoursesViewModel:ViewModel() {
+class OfflineCoursesViewModel(
+    private val myRepository: MyRepository
+):ViewModel() {
     private val _offlineCourses = MutableLiveData<List<Course>>()
     val offlineCourses: LiveData<List<Course>>
         get() = _offlineCourses

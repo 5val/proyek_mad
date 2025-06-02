@@ -11,13 +11,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.example.proyek_mad.MyViewModelFactory
 import com.example.proyek_mad.R
 import com.example.proyek_mad.data.Question
 import com.example.proyek_mad.databinding.FragmentQuizBinding
 
 class QuizFragment : Fragment() {
     lateinit var binding: FragmentQuizBinding
-    val viewModel: QuizViewModel by activityViewModels()
+    val viewModel: QuizViewModel by viewModels<QuizViewModel> { MyViewModelFactory}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

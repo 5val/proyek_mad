@@ -22,12 +22,6 @@ data class UserModuleProgressEntity(
     @ColumnInfo(name = "status_selesai")
     val statusSelesai: Boolean = false,
 
-    @ColumnInfo(name = "tanggal_diselesaikan")
-    val tanggalDiselesaikan: Date?,
-
-    @ColumnInfo(name = "created_at")
-    val createdAt: Date = Date(),
-
-    @ColumnInfo(name = "updated_at")
-    val updatedAt: Date = Date()
+//    @ColumnInfo(name = "tanggal_diselesaikan")
+//    val tanggalDiselesaikan: Date?,
 )

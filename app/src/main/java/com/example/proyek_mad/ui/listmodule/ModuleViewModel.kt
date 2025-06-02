@@ -7,11 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.proyek_mad.data.Course
 import com.example.proyek_mad.data.MockDB
 import com.example.proyek_mad.data.Module
+import com.example.proyek_mad.data.repositories.MyRepository
 import kotlinx.coroutines.launch
 
-class ModuleViewModel:ViewModel() {
-    private val _module = MutableLiveData<List<Module>>()
-    val module: LiveData<List<Module>>
+class ModuleViewModel(
+    private val myRepository: MyRepository
+):ViewModel() {
+    private val _module = MutableLiveData<Result<Module>>()
+    val module: LiveData<Result<Module>>
         get() = _module
 
     private val _toastku = MutableLiveData<String>()
@@ -24,15 +27,19 @@ class ModuleViewModel:ViewModel() {
 
     fun init() {
         viewModelScope.launch {
-            _module.value = MockDB.modules.filter { it.kelas_id == MockDB.selectedKelas && it.materi_id == MockDB.selectedMateri }
-            _maxMateri.value = MockDB.modules.filter { it.kelas_id == MockDB.selectedKelas }.maxOfOrNull { it.materi_id } ?: 0
+//            _module.value = MockDB.modules.filter { it.kelas_id == MockDB.selectedKelas && it.materi_id == MockDB.selectedMateri }
+//            _maxMateri.value = MockDB.modules.filter { it.kelas_id == MockDB.selectedKelas }.maxOfOrNull { it.materi_id } ?: 0
+            _module.value = myRepository.getMaterialById(MockDB.selectedMateri)
+            _maxMateri.value = myRepository.getMaterialsByCourse(MockDB.selectedKelas)
+                ?.getOrNull()
+                ?.maxOfOrNull { it.materi_id }
+                ?: 0
         }
     }
 
     fun refresh() {
         viewModelScope.launch {
-
-            _module.value = MockDB.modules.filter { it.kelas_id == MockDB.selectedKelas && it.materi_id == MockDB.selectedMateri }
+            _module.value = myRepository.getMaterialById(MockDB.selectedMateri)
         }
     }
 
@@ -45,7 +52,4 @@ class ModuleViewModel:ViewModel() {
         MockDB.selectedMateri -= 1
         refresh()
     }
-
-
-
 }

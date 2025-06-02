@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.proyek_mad.MyViewModelFactory
 import com.example.proyek_mad.R
 import com.example.proyek_mad.data.Course
 import com.example.proyek_mad.data.MockDB
@@ -20,7 +21,7 @@ import com.example.proyek_mad.ui.offlineofflineCourse.OfflineCoursesAdapter
 
 class OfflineCoursesFragment : Fragment() {
     lateinit var binding:FragmentOfflineCoursesBinding
-    val viewModel:OfflineCoursesViewModel by viewModels()
+    val viewModel:OfflineCoursesViewModel by viewModels<OfflineCoursesViewModel>{ MyViewModelFactory}
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

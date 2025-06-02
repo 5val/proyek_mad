@@ -1,9 +1,8 @@
 package com.example.proyek_mad.data.repositories
 
-import com.example.proyek_mad.data.sources.local.LocalDataSource
+import com.example.proyek_mad.data.Course
+import com.example.proyek_mad.data.Module
 import com.example.proyek_mad.data.sources.remote.RemoteDataSource
-import com.example.proyek_mad.data.sources.remote.receive.CourseJson
-import com.example.proyek_mad.data.sources.remote.receive.MaterialJson
 import com.example.proyek_mad.data.sources.remote.receive.UserJson
 import com.example.proyek_mad.data.sources.remote.request.EditPenggunaRequest
 import com.example.proyek_mad.data.sources.remote.request.LoginRequest
@@ -11,50 +10,60 @@ import com.example.proyek_mad.data.sources.remote.request.RegisterRequest
 import com.example.proyek_mad.data.sources.remote.response.BasicResponse
 
 class MyDefaultRepository(
-    localDataSource: LocalDataSource,
-    remoteDataSource: RemoteDataSource
+//    private val localDataSource: LocalDataSource,
+    private val remoteDataSource: RemoteDataSource
 ):MyRepository {
     override suspend fun login(request: LoginRequest): Result<UserJson> {
-        TODO("Not yet implemented")
+        return remoteDataSource.login(request)
     }
 
     override suspend fun register(request: RegisterRequest): Result<BasicResponse> {
-        TODO("Not yet implemented")
+        return remoteDataSource.register(request)
     }
 
     override suspend fun editPengguna(
         userId: Int,
         request: EditPenggunaRequest
     ): Result<BasicResponse> {
-        TODO("Not yet implemented")
+        return remoteDataSource.editPengguna(userId, request)
     }
 
-    override suspend fun getAllPublishedCourses(): Result<List<CourseJson>> {
-        TODO("Not yet implemented")
+    override suspend fun getAllPublishedCourses(): Result<List<Course>> {
+        return remoteDataSource.getAllPublishedCourses().map { list ->
+            list.map { it.toCourse() }
+        }
     }
 
-    override suspend fun getCourseById(courseId: Int): Result<CourseJson> {
-        TODO("Not yet implemented")
+    override suspend fun getCourseById(courseId: Int): Result<Course> {
+        return remoteDataSource.getCourseById(courseId).map { it.toCourse() }
     }
 
-    override suspend fun getOngoingCourse(userId: Int): Result<List<CourseJson>> {
-        TODO("Not yet implemented")
+    override suspend fun getOngoingCourse(userId: Int): Result<List<Course>> {
+        return remoteDataSource.getOngoingCourse(userId).map { list->
+            list.map { it.toCourse() }
+        }
     }
 
-    override suspend fun getCompletedCourse(userId: Int): Result<List<CourseJson>> {
-        TODO("Not yet implemented")
+    override suspend fun getCompletedCourse(userId: Int): Result<List<Course>> {
+        return remoteDataSource.getCompletedCourse(userId).map { list->
+            list.map { it.toCourse() }
+        }
     }
 
     override suspend fun enrollUserToCourse(kelasId: Int, userId: Int): Result<BasicResponse> {
-        TODO("Not yet implemented")
+        return remoteDataSource.enrollUserToCourse(kelasId, userId)
     }
 
-    override suspend fun getMaterialsByCourse(courseId: Int): Result<List<MaterialJson>> {
-        TODO("Not yet implemented")
+    override suspend fun getMaterialsByCourse(courseId: Int): Result<List<Module>> {
+        return remoteDataSource.getMaterialsByCourse(courseId).map { list->
+            list.map { it.toMaterial() }
+        }
     }
 
-    override suspend fun getMaterialById(materialId: Int): Result<MaterialJson> {
-        TODO("Not yet implemented")
+    override suspend fun getMaterialById(materialId: Int): Result<Module> {
+        return remoteDataSource.getMaterialById(materialId).map {
+            it.toMaterial()
+        }
     }
 
 }

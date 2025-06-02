@@ -3,15 +3,18 @@ package com.example.proyek_mad.ui.listkelas
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.proyek_mad.MyViewModelFactory
 import com.example.proyek_mad.R
 import com.example.proyek_mad.data.Course
 import com.example.proyek_mad.data.MockDB
@@ -21,7 +24,7 @@ import com.example.proyek_mad.databinding.FragmentCoursesBinding
 
 class CoursesFragment : Fragment() {
     lateinit var binding:FragmentCoursesBinding
-    val viewModel:CoursesViewModel by viewModels()
+    val viewModel:CoursesViewModel by viewModels<CoursesViewModel>{ MyViewModelFactory}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,11 +39,6 @@ class CoursesFragment : Fragment() {
         viewModel.refresh()
         val coursesAdapter = CoursesAdapter()
         binding.lifecycleOwner = this
-
-        val observer = Observer<List<Course>>{ it ->
-            coursesAdapter.submitList(it)
-        }
-        viewModel.courses.observe(viewLifecycleOwner, observer)
 
         coursesAdapter.onItemClickListener = {course->
             MockDB.selectedKelas = course.kelas_id
@@ -61,5 +59,12 @@ class CoursesFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {
             }
         })
+        viewModel.courses.observe(viewLifecycleOwner) { it ->
+            it.onSuccess {
+                    list->  coursesAdapter.submitList(list)
+            }.onFailure { error ->
+                Toast.makeText(this.context, "Error fetching database", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

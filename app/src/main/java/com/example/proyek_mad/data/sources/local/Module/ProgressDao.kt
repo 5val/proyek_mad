@@ -19,7 +19,7 @@ interface ProgressDao {
     @Query("SELECT * FROM user_kelas_enrollment WHERE user_id = :userId AND kelas_id = :courseId")
     suspend fun getUserEnrollment(userId: Int, courseId: Int): UserCourseEnrollmentEntity?
 
-    @Query("SELECT * FROM user_kelas_enrollment WHERE user_id = :userId ORDER BY tanggal_mulai DESC")
+    @Query("SELECT * FROM user_kelas_enrollment WHERE user_id = :userId")
     suspend fun getUserEnrollments(userId: Int): List<UserCourseEnrollmentEntity>
 
     @Update
@@ -42,10 +42,10 @@ interface ProgressDao {
 
     @Query("""
         UPDATE user_materi_progress 
-        SET status_selesai = :completed, tanggal_diselesaikan = :completedDate 
+        SET status_selesai = :completed
         WHERE enrollment_id = :enrollmentId AND materi_id = :materialId
     """)
-    suspend fun updateMaterialProgress(enrollmentId: Int, materialId: Int, completed: Boolean, completedDate: Date?)
+    suspend fun updateMaterialProgress(enrollmentId: Int, materialId: Int, completed: Boolean)
 
     // ===== PROGRESS SUMMARY =====
 
@@ -78,10 +78,10 @@ interface ProgressDao {
 
     @Query("""
         UPDATE user_kelas_enrollment 
-        SET materi_terakhir_diakses_id = :materialId, updated_at = :updatedAt
+        SET materi_terakhir_diakses_id = :materialId
         WHERE enrollment_id = :enrollmentId
     """)
-    suspend fun updateLastAccessedMaterial(enrollmentId: Int, materialId: Int, updatedAt: Date = Date())
+    suspend fun updateLastAccessedMaterial(enrollmentId: Int, materialId: Int)
 
     @Query("""
         SELECT COUNT(*) FROM user_materi_progress ump

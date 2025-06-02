@@ -1,5 +1,4 @@
 package com.example.proyek_mad.data.sources.remote
-
 import com.example.proyek_mad.data.sources.remote.receive.CourseJson
 import com.example.proyek_mad.data.sources.remote.receive.MaterialJson
 import com.example.proyek_mad.data.sources.remote.receive.UserJson
@@ -14,6 +13,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface WebService {
 
@@ -41,7 +41,7 @@ interface WebService {
 
     // materi
     @GET("materi")
-    suspend fun getMaterialsByCourse(@Body courseId: Int): Response<List<MaterialJson>>
+    suspend fun getMaterialsByCourse(@Query("kelas_id") kelas_id: Int): Response<List<MaterialJson>>
     @GET("materi/{materiId}")
     suspend fun getMaterialById(@Path("materiId") materialId: Int): Response<MaterialJson>
 

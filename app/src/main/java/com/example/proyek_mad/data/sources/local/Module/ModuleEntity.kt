@@ -25,15 +25,12 @@ data class ModuleEntity(
     @ColumnInfo(name = "konten_materi")
     val kontenMateri: String?,
 
-    @ColumnInfo(name = "tipe_materi")
-    val tipeMateri: String = "text", // text, video, pdf, interactive
-
     @ColumnInfo(name = "urutan_materi_dalam_kelas")
     val urutanMateriDalamKelas: Int,
 
-    @ColumnInfo(name = "created_at")
-    val createdAt: Date = Date(),
-
-    @ColumnInfo(name = "updated_at")
-    val updatedAt: Date = Date()
+//    @ColumnInfo(name = "created_at")
+//    val createdAt: Date = Date(),
+//
+//    @ColumnInfo(name = "updated_at")
+//    val updatedAt: Date = Date()
 )

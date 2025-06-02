@@ -23,15 +23,15 @@ data class UserEntity(
     @ColumnInfo(name = "nama_lengkap")
     val namaLengkap: String?,
 
-    @ColumnInfo(name = "tanggal_daftar")
-    val tanggalDaftar: Date = Date(),
-
-    @ColumnInfo(name = "terakhir_login")
-    val terakhirLogin: Date?,
-
-    @ColumnInfo(name = "created_at")
-    val createdAt: Date = Date(),
-
-    @ColumnInfo(name = "updated_at")
-    val updatedAt: Date = Date()
+//    @ColumnInfo(name = "tanggal_daftar")
+//    val tanggalDaftar: Date = Date(),
+//
+//    @ColumnInfo(name = "terakhir_login")
+//    val terakhirLogin: Date?,
+//
+//    @ColumnInfo(name = "created_at")
+//    val createdAt: Date = Date(),
+//
+//    @ColumnInfo(name = "updated_at")
+//    val updatedAt: Date = Date()
 )

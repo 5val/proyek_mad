@@ -6,11 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.proyek_mad.data.Course
 import com.example.proyek_mad.data.MockDB
+import com.example.proyek_mad.data.repositories.MyRepository
 import kotlinx.coroutines.launch
 
-class CoursesViewModel:ViewModel() {
-    private val _courses = MutableLiveData<List<Course>>()
-    val courses: LiveData<List<Course>>
+class CoursesViewModel(
+    private val myRepository: MyRepository
+):ViewModel() {
+    private val _courses = MutableLiveData<Result<List<Course>>>()
+    val courses: LiveData<Result<List<Course>>>
         get() = _courses
 
     fun refresh() {
@@ -18,12 +21,12 @@ class CoursesViewModel:ViewModel() {
     }
     fun search(keyword:String){
         viewModelScope.launch {
-            _courses.value = MockDB.courses.filter { it.nama_kelas.contains(keyword) }
+            _courses.value = _courses.value?.onSuccess{item-> item.filter { it.nama_kelas.contains(keyword) }}
         }
     }
     fun getAll(){
         viewModelScope.launch {
-            _courses.value = MockDB.courses
+            _courses.value = myRepository.getAllPublishedCourses()
         }
 
     }

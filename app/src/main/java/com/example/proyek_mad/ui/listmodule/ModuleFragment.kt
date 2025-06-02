@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.example.proyek_mad.MyViewModelFactory
 import com.example.proyek_mad.R
 import com.example.proyek_mad.data.MockDB
 import com.example.proyek_mad.data.Module
@@ -18,7 +19,7 @@ import com.example.proyek_mad.databinding.FragmentModuleBinding
 
 class ModuleFragment : Fragment() {
     lateinit var binding:FragmentModuleBinding
-    val viewModel:ModuleViewModel by viewModels()
+    val viewModel:ModuleViewModel by viewModels<ModuleViewModel>{ MyViewModelFactory}
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,24 +56,23 @@ class ModuleFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        val observer = Observer<List<Module>>{it ->
-            binding.txtModuleTitleCard.setText(it[0].judul_materi.toString())
-            binding.txtModuleContent.setText(it[0].konten_materi.toString())
-            if (MockDB.selectedMateri == 1) {
-                binding.btnPrevious.isEnabled = false
-            } else {
-                binding.btnPrevious.isEnabled = true
+        val observer = Observer<Result<Module>>{it ->
+            it.onSuccess {
+                binding.txtModuleTitleCard.setText(it.judul_materi.toString())
+                binding.txtModuleContent.setText(it.konten_materi.toString())
+                if (MockDB.selectedMateri == 1) {
+                    binding.btnPrevious.isEnabled = false
+                } else {
+                    binding.btnPrevious.isEnabled = true
+                }
+
+                if (MockDB.selectedMateri == viewModel.maxMateri.value) {
+                    binding.btnNext.isEnabled = false
+                } else {
+                    binding.btnNext.isEnabled = true
+                }
+                updateProgress()
             }
-
-            if (MockDB.selectedMateri == viewModel.maxMateri.value) {
-                binding.btnNext.isEnabled = false
-            } else {
-                binding.btnNext.isEnabled = true
-            }
-
-            updateProgress()
-
-
         }
         viewModel.module.observe(viewLifecycleOwner, observer)
 
@@ -80,7 +80,6 @@ class ModuleFragment : Fragment() {
             Toast.makeText(this.context, it.toString(), Toast.LENGTH_SHORT).show()
         }
         viewModel.toastku.observe(viewLifecycleOwner, observerToast)
-
 
     }
 

@@ -22,15 +22,9 @@ data class CourseEntity(
     @ColumnInfo(name = "prasyarat_kelas_id")
     val prasyaratKelasId: Int?,
 
-    @ColumnInfo(name = "thumbnail_url")
-    val thumbnailUrl: String?,
-
-    @ColumnInfo(name = "status_publikasi")
-    val statusPublikasi: String = "draft", // draft, published, archived
-
-    @ColumnInfo(name = "created_at")
-    val createdAt: Date = Date(),
-
-    @ColumnInfo(name = "updated_at")
-    val updatedAt: Date = Date()
+//    @ColumnInfo(name = "created_at")
+//    val createdAt: Date = Date(),
+//
+//    @ColumnInfo(name = "updated_at")
+//    val updatedAt: Date = Date()
 )

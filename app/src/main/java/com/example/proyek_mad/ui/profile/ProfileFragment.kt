@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.proyek_mad.MyViewModelFactory
 import com.example.proyek_mad.R
 import com.example.proyek_mad.data.MockDB
 import com.example.proyek_mad.databinding.FragmentProfileBinding
@@ -15,7 +16,7 @@ import com.example.proyek_mad.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
     lateinit var binding:FragmentProfileBinding
-    val viewModel:ProfileViewModel by viewModels();
+    val viewModel:ProfileViewModel by viewModels<ProfileViewModel>{ MyViewModelFactory};
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

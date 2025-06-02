@@ -19,11 +19,11 @@ data class UserCourseEnrollmentEntity(
     @ColumnInfo(name = "kelas_id")
     val kelasId: Int,
 
-    @ColumnInfo(name = "tanggal_mulai")
-    val tanggalMulai: Date = Date(),
-
-    @ColumnInfo(name = "tanggal_selesai")
-    val tanggalSelesai: Date?,
+//    @ColumnInfo(name = "tanggal_mulai")
+//    val tanggalMulai: Date = Date(),
+//
+//    @ColumnInfo(name = "tanggal_selesai")
+//    val tanggalSelesai: Date?,
 
     @ColumnInfo(name = "status_kelas")
     val statusKelas: String = "terdaftar", // terdaftar, sedang_dipelajari, selesai, gagal
@@ -34,9 +34,4 @@ data class UserCourseEnrollmentEntity(
     @ColumnInfo(name = "skor_akhir_kelas")
     val skorAkhirKelas: Float?,
 
-    @ColumnInfo(name = "created_at")
-    val createdAt: Date = Date(),
-
-    @ColumnInfo(name = "updated_at")
-    val updatedAt: Date = Date()
 )

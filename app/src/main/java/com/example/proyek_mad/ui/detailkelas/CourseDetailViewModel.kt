@@ -6,18 +6,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.proyek_mad.data.MockDB
 import com.example.proyek_mad.data.Module
+import com.example.proyek_mad.data.repositories.MyRepository
 import kotlinx.coroutines.launch
 
-class CourseDetailViewModel:ViewModel() {
-    private val _materi = MutableLiveData<List<Module>>()
-    val materi: LiveData<List<Module>>
+class CourseDetailViewModel(
+    private val myRepository: MyRepository
+):ViewModel() {
+    private val _materi = MutableLiveData<Result<List<Module>>>()
+    val materi: LiveData<Result<List<Module>>>
         get() = _materi
 
     var nilaiTerbaik = 0
 
     fun refresh() {
         viewModelScope.launch {
-            _materi.value = MockDB.modules.filter { it.kelas_id == MockDB.selectedKelas }
+            _materi.value = myRepository.getMaterialsByCourse(MockDB.selectedKelas)
             var kuisKelas = MockDB.quizzes.find { it.kelas_id == MockDB.selectedKelas }
             var kuisAttempts = MockDB.quizAttempts.filter { it.kuis_id == kuisKelas?.kuis_id && it.user_id == MockDB.currentUser.user_id}.sortedByDescending {
                 it.skor_diperoleh

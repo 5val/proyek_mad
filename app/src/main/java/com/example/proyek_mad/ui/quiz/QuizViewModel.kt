@@ -11,10 +11,13 @@ import com.example.proyek_mad.data.Question
 import com.example.proyek_mad.data.Quiz
 import com.example.proyek_mad.data.QuizAnswer
 import com.example.proyek_mad.data.QuizAttempt
+import com.example.proyek_mad.data.repositories.MyRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class QuizViewModel: ViewModel() {
+class QuizViewModel(
+    private val myRepository:MyRepository
+): ViewModel() {
     private val _quiz = MutableLiveData<Quiz>()
     val quiz: LiveData<Quiz>
         get() = _quiz
