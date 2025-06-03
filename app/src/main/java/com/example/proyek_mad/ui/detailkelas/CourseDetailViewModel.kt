@@ -16,18 +16,22 @@ class CourseDetailViewModel(
     val materi: LiveData<Result<List<Module>>>
         get() = _materi
 
-    var nilaiTerbaik = 0
+    private val _nilaiTerbaik = MutableLiveData<Int>(0)
+    val nilaiTerbaik: LiveData<Int>
+        get() = _nilaiTerbaik
 
     fun refresh() {
         viewModelScope.launch {
             _materi.value = myRepository.getMaterialsByCourse(MockDB.selectedKelas)
-            var kuisKelas = MockDB.quizzes.find { it.kelas_id == MockDB.selectedKelas }
-            var kuisAttempts = MockDB.quizAttempts.filter { it.kuis_id == kuisKelas?.kuis_id && it.user_id == MockDB.currentUser.user_id}.sortedByDescending {
-                it.skor_diperoleh
-            }
-            if(kuisAttempts.size > 0) {
-                nilaiTerbaik = kuisAttempts[0].skor_diperoleh
-            }
+//            var kuisKelas = MockDB.quizzes.find { it.kelas_id == MockDB.selectedKelas }
+//            var kuisKelas = myRepository.getKuisKelas(MockDB.selectedKelas).getOrNull()
+//            var kuisAttempts = MockDB.quizAttempts.filter { it.kuis_id == kuisKelas?.kuis_id && it.user_id == MockDB.currentUser.user_id}.sortedByDescending {
+//                it.skor_diperoleh
+//            }
+//            if(kuisAttempts.size > 0) {
+//                nilaiTerbaik = kuisAttempts[0].skor_diperoleh
+//            }
+            _nilaiTerbaik.value = myRepository.getNilaiTerbaik(MockDB.currentUser.user_id, MockDB.selectedKelas).getOrNull()?.nilai?: 0
         }
     }
 

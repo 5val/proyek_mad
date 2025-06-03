@@ -1,12 +1,21 @@
 package com.example.proyek_mad.data.sources.remote
 
+import com.example.proyek_mad.data.sources.remote.receive.BestScoreJson
 import com.example.proyek_mad.data.sources.remote.receive.CourseJson
+import com.example.proyek_mad.data.sources.remote.receive.EnrollmentJson
 import com.example.proyek_mad.data.sources.remote.receive.MaterialJson
+import com.example.proyek_mad.data.sources.remote.receive.OptionJson
+import com.example.proyek_mad.data.sources.remote.receive.QuestionJson
+import com.example.proyek_mad.data.sources.remote.receive.QuizAttemptJson
+import com.example.proyek_mad.data.sources.remote.receive.QuizJson
 import com.example.proyek_mad.data.sources.remote.receive.UserJson
+import com.example.proyek_mad.data.sources.remote.request.CreateQuizAttemptRequest
 import com.example.proyek_mad.data.sources.remote.request.EditPenggunaRequest
 import com.example.proyek_mad.data.sources.remote.request.EnrollmentRequest
 import com.example.proyek_mad.data.sources.remote.request.LoginRequest
+import com.example.proyek_mad.data.sources.remote.request.QuizAnswerRequest
 import com.example.proyek_mad.data.sources.remote.request.RegisterRequest
+import com.example.proyek_mad.data.sources.remote.request.ScoreQuizRequest
 import com.example.proyek_mad.data.sources.remote.response.BasicResponse
 import retrofit2.Response
 
@@ -72,5 +81,61 @@ class RetrofitDataSource(private val apiService: WebService) : RemoteDataSource 
 
     override suspend fun getMaterialById(materialId: Int): Result<MaterialJson> {
         return safeApiCall { apiService.getMaterialById(materialId) }
+    }
+
+    override suspend fun getKuisKelas(kelas_id: Int): Result<QuizJson> {
+        return safeApiCall { apiService.getKuisKelas(kelas_id) }
+    }
+
+    override suspend fun getSoalKuis(urutan_soal: Int, kuis_id: Int): Result<QuestionJson> {
+        return safeApiCall { apiService.getSoalKuis(urutan_soal, kuis_id) }
+    }
+
+    override suspend fun getAllSoalKuis(kuis_id: Int): Result<List<QuestionJson>> {
+        return safeApiCall { apiService.getAllSoalKuis(kuis_id) }
+    }
+
+    override suspend fun getPilihanSoal(soal_id: Int): Result<List<OptionJson>> {
+        return safeApiCall { apiService.getPilihanSoal(soal_id) }
+    }
+
+    override suspend fun getNilaiTerbaik(user_id: Int, kelas_id: Int): Result<BestScoreJson> {
+        return safeApiCall { apiService.getNilaiTerbaik(user_id, kelas_id) }
+    }
+
+    override suspend fun getAllKuisAttempt(
+        kuis_id: Int,
+        user_id: Int
+    ): Result<List<QuizAttemptJson>> {
+        return safeApiCall { apiService.getAllKuisAttempt(kuis_id, user_id) }
+    }
+
+    override suspend fun getKuisAttemptTerakhir(): Result<QuizAttemptJson> {
+        return safeApiCall { apiService.getKuisAttemptTerakhir() }
+    }
+
+    override suspend fun getEnrollment(user_id: Int, kelas_id: Int): Result<EnrollmentJson> {
+        return safeApiCall { apiService.getEnrollment(user_id, kelas_id) }
+    }
+
+    override suspend fun startKuis(
+        createQuizAttemptRequest: CreateQuizAttemptRequest,
+        kuis_id: Int
+    ): Result<QuizAttemptJson> {
+        return safeApiCall { apiService.startKuis(createQuizAttemptRequest, kuis_id) }
+    }
+
+    override suspend fun nilaiKuis(
+        scoreQuizRequest: ScoreQuizRequest,
+        attempt_id: Int
+    ): Result<EnrollmentJson> {
+        return safeApiCall { apiService.nilaiKuis(scoreQuizRequest, attempt_id) }
+    }
+
+    override suspend fun jawabSoal(
+        quizAnswerRequest: QuizAnswerRequest,
+        soal_id: Int
+    ): Result<QuizAttemptJson> {
+        return safeApiCall { apiService.jawabSoal(quizAnswerRequest, soal_id) }
     }
 }

@@ -4,6 +4,6 @@ data class Quiz (
     val kuis_id:Int,
     val kelas_id:Int,
     val judul_kuis:String,
-    val batas_waktu_pengerjaan_menit:String,
+    val batas_waktu_pengerjaan_menit:String = "1",
     val nilai_minimum_lulus:Int
 )

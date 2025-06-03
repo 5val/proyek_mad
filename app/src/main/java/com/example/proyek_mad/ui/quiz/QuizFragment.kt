@@ -36,7 +36,12 @@ class QuizFragment : Fragment() {
         binding.lifecycleOwner = this
 
         val observer = Observer<Question>{ it ->
-            binding.quizProgress.progress = viewModel.question.value.urutan_soal - 1
+            binding.quizProgress.progress = it.urutan_soal - 1
+            if(it.urutan_soal == viewModel.jmlQuestion) {
+                binding.btnSubmit.text = "Submit Answer"
+            } else {
+                binding.btnSubmit.text = "Next"
+            }
         }
         viewModel.question.observe(viewLifecycleOwner, observer)
 
@@ -48,11 +53,7 @@ class QuizFragment : Fragment() {
         }
         viewModel.sisaWaktu.observe(viewLifecycleOwner, observer2)
 
-        if(viewModel.question.value.urutan_soal == viewModel.jmlQuestion) {
-            binding.btnSubmit.text = "Submit Answer"
-        } else {
-            binding.btnSubmit.text = "Next"
-        }
+
 
         binding.quizProgress.max = viewModel.jmlQuestion
 
@@ -77,11 +78,6 @@ class QuizFragment : Fragment() {
                 viewModel.changeQuestion()
             }
             binding.rgAnswers.clearCheck()
-            if(viewModel.question.value.urutan_soal == viewModel.jmlQuestion) {
-                binding.btnSubmit.text = "Submit Answer"
-            } else {
-                binding.btnSubmit.text = "Next"
-            }
         }
     }
 }
