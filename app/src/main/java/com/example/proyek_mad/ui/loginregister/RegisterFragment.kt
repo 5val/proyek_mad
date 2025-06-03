@@ -1,60 +1,75 @@
 package com.example.proyek_mad.ui.loginregister
 
 import android.os.Bundle
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.proyek_mad.R
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [RegisterFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class RegisterFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    private lateinit var viewModel: LoginRegisterViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register, container, false)
+    ): View {
+        val view = inflater.inflate(R.layout.fragment_register, container, false)
+
+        val name = view.findViewById<EditText>(R.id.inpNameReg)
+        val email = view.findViewById<EditText>(R.id.inpEmailReg)
+        val password = view.findViewById<EditText>(R.id.inpPassReg)
+        val passwordConfirm = view.findViewById<EditText>(R.id.inpCpassReg)
+        val btnRegister = view.findViewById<Button>(R.id.btnReg)
+        val btnToLogin = view.findViewById<TextView>(R.id.linkToLogin)
+
+        viewModel = ViewModelProvider(requireActivity()).get(LoginRegisterViewModel::class.java)
+
+        btnRegister.setOnClickListener {
+            val nameInput = name.text.toString().trim()
+            val emailInput = email.text.toString().trim()
+            val passwordInput = password.text.toString()
+            val confirmPasswordInput = passwordConfirm.text.toString()
+
+            if (nameInput.isEmpty() || emailInput.isEmpty() || passwordInput.isEmpty() || confirmPasswordInput.isEmpty()) {
+                Toast.makeText(requireContext(), "Semua field harus diisi", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
+                email.error = "Email tidak valid"
+                return@setOnClickListener
+            }
+
+            if (passwordInput != confirmPasswordInput) {
+                passwordConfirm.error = "Konfirmasi password tidak sesuai"
+                return@setOnClickListener
+            }
+
+            if (viewModel.isEmailRegistered(emailInput)) {
+                email.error = "Email sudah terdaftar"
+                return@setOnClickListener
+            }
+
+            viewModel.register(nameInput, emailInput, passwordInput)
+            Toast.makeText(requireContext(), "Registrasi berhasil", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+        }
+
+        btnToLogin.setOnClickListener {
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+        }
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment RegisterFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            RegisterFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+
 }
