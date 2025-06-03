@@ -6,6 +6,7 @@ import com.example.proyek_mad.data.Option
 import com.example.proyek_mad.data.Question
 import com.example.proyek_mad.data.Quiz
 import com.example.proyek_mad.data.QuizAttempt
+import com.example.proyek_mad.data.User
 import com.example.proyek_mad.data.sources.remote.receive.BestScoreJson
 import com.example.proyek_mad.data.sources.remote.receive.EnrollmentJson
 import com.example.proyek_mad.data.sources.remote.receive.UserJson
@@ -18,7 +19,7 @@ import com.example.proyek_mad.data.sources.remote.request.ScoreQuizRequest
 import com.example.proyek_mad.data.sources.remote.response.BasicResponse
 
 interface MyRepository {
-    suspend fun login(request: LoginRequest): Result<UserJson>
+    suspend fun login(request: LoginRequest): User
     suspend fun register(request: RegisterRequest): Result<BasicResponse>
     suspend fun editPengguna(userId: Int, request: EditPenggunaRequest): Result<BasicResponse>
 

@@ -11,27 +11,37 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.proyek_mad.MyViewModelFactory
 import com.example.proyek_mad.R
 import com.example.proyek_mad.UserActivity
+import com.example.proyek_mad.data.MockDB
+import com.example.proyek_mad.databinding.FragmentCoursesBinding
+import com.example.proyek_mad.databinding.FragmentLoginBinding
 
 
 class LoginFragment : Fragment() {
-    private lateinit var viewModel: LoginRegisterViewModel
+    lateinit var binding:FragmentLoginBinding
+    val viewModel:LoginRegisterViewModel by viewModels<LoginRegisterViewModel> { MyViewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.fragment_login, container, false)
-        val email = view.findViewById<EditText>(R.id.inpEmailReg)
-        val password = view.findViewById<EditText>(R.id.inpPassReg)
-        val btnLogin = view.findViewById<Button>(R.id.btnLogin)
-        val btnToRegister = view.findViewById<TextView>(R.id.linkToReg)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
+        return binding.root
+    }
 
-        viewModel = ViewModelProvider(requireActivity()).get(LoginRegisterViewModel::class.java)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val email = binding.inpEmailReg
+        val password = binding.inpPassReg
+        val btnLogin = binding.btnLogin
+        val btnToRegister = binding.linkToReg
 
         btnLogin.setOnClickListener {
             val emailInput = email.text.toString().trim()
@@ -45,19 +55,21 @@ class LoginFragment : Fragment() {
                 email.error = "Email tidak valid"
                 return@setOnClickListener
             }
-            if (viewModel.login(emailInput, passwordInput)) {
+        }
+
+        viewModel.loginSuccess.observe(viewLifecycleOwner){ it->
+            if(it.user_id == 0){
+                Toast.makeText(requireContext(), "Email atau password salah", Toast.LENGTH_SHORT).show()
+            } else{
+                MockDB.currentUser = it
                 Toast.makeText(requireContext(), "Login berhasil", Toast.LENGTH_SHORT).show()
                 val intent = Intent(requireContext(), UserActivity::class.java)
                 startActivity(intent)
-            } else {
-                Toast.makeText(requireContext(), "Email atau password salah", Toast.LENGTH_SHORT).show()
             }
         }
 
         btnToRegister.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
-
         }
-        return view
     }
 }

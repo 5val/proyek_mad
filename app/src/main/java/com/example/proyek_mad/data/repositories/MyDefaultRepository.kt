@@ -6,6 +6,7 @@ import com.example.proyek_mad.data.Option
 import com.example.proyek_mad.data.Question
 import com.example.proyek_mad.data.Quiz
 import com.example.proyek_mad.data.QuizAttempt
+import com.example.proyek_mad.data.User
 import com.example.proyek_mad.data.sources.remote.RemoteDataSource
 import com.example.proyek_mad.data.sources.remote.receive.BestScoreJson
 import com.example.proyek_mad.data.sources.remote.receive.EnrollmentJson
@@ -22,8 +23,13 @@ class MyDefaultRepository(
 //    private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource
 ):MyRepository {
-    override suspend fun login(request: LoginRequest): Result<UserJson> {
-        return remoteDataSource.login(request)
+    override suspend fun login(request: LoginRequest): User {
+        remoteDataSource.login(request).onSuccess {it->
+            return it.toUser()
+        }.onFailure {
+            // logika dao
+        }
+        return User(0, "", "", "", "")
     }
 
     override suspend fun register(request: RegisterRequest): Result<BasicResponse> {
