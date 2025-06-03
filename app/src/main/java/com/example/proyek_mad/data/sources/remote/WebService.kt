@@ -39,19 +39,19 @@ interface WebService {
     suspend fun login(@Body loginRequest: LoginRequest):Response<UserJson>
     @POST("register")
     suspend fun register(@Body registerRequest: RegisterRequest):Response<BasicResponse>
-    @PUT("editPengguna/{userId}")
+    @POST("edit_pengguna/{userId}")
     suspend fun editPengguna(
         @Path("userId") userId:Int,
-        @Body() editPenggunaRequest: EditPenggunaRequest): Response<BasicResponse>
+        @Body editPenggunaRequest: EditPenggunaRequest): Response<BasicResponse>
 
     // kelas dan enroll
-    @GET("kelas")
-    suspend fun getAllPublishedCourses(): Response<List<CourseJson>>
+    @GET("allclass/{userId}")
+    suspend fun getAllPublishedCourses(@Path("userId") userId: Int): Response<List<CourseJson>>
     @GET("kelas/{courseId}")
     suspend fun getCourseById(@Path("courseId") courseId: Int): Response<CourseJson>
     @GET("ongoing/{userId}")
     suspend fun getOngoingCourse(@Path("userId") userId: Int): Response<List<CourseJson>>
-    @GET("kelas/{courseId}")
+    @GET("completed/{userId}")
     suspend fun getCompletedCourse(@Path("userId") userId: Int): Response<List<CourseJson>>
     @POST("enrollClass")
     suspend fun enrollUserToCourse(@Body enrollmentRequest: EnrollmentRequest): Response<BasicResponse>

@@ -39,7 +39,7 @@ class EditProfileFragment : Fragment() {
                     binding.inpNameReg.text.toString(),
                     binding.inpPasswordEdit.text.toString()
                 )
-                findNavController().navigate(R.id.action_global_profileFragment)
+
             } else{
                 Toast.makeText(this.context, "Password Tidak Sesuai", Toast.LENGTH_SHORT).show()
             }
@@ -50,6 +50,16 @@ class EditProfileFragment : Fragment() {
         viewModel.profile.observe(viewLifecycleOwner){it->
             binding.user = it
         }
+        viewModel.editSuccess.observe(viewLifecycleOwner){it->
+            it.onSuccess {
+                Toast.makeText(this.context, it.msg, Toast.LENGTH_SHORT).show()
+                viewModel.updateMockDB()
+                findNavController().navigate(R.id.action_global_profileFragment)
+            }.onFailure {
+                Toast.makeText(this.context, it.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
 
 }

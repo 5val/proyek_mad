@@ -8,6 +8,7 @@ import com.example.proyek_mad.ui.detailkelas.CourseDetailViewModel
 import com.example.proyek_mad.ui.home.HomeViewModel
 import com.example.proyek_mad.ui.listkelas.CoursesViewModel
 import com.example.proyek_mad.ui.listmodule.ModuleViewModel
+import com.example.proyek_mad.ui.loginregister.LoginRegisterViewModel
 import com.example.proyek_mad.ui.offlinecourse.OfflineCoursesViewModel
 import com.example.proyek_mad.ui.profile.ProfileViewModel
 import com.example.proyek_mad.ui.quiz.QuizViewModel
@@ -32,6 +33,8 @@ val MyViewModelFactory = object : ViewModelProvider.Factory {
                     QuizViewModel(myRepository)
                 isAssignableFrom(ProfileViewModel::class.java) ->
                     ProfileViewModel(myRepository)
+                isAssignableFrom(LoginRegisterViewModel::class.java) ->
+                    LoginRegisterViewModel(myRepository)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

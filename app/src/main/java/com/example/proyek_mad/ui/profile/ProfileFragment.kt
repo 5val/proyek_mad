@@ -8,10 +8,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyek_mad.MyViewModelFactory
 import com.example.proyek_mad.R
 import com.example.proyek_mad.data.MockDB
 import com.example.proyek_mad.databinding.FragmentProfileBinding
+import com.example.proyek_mad.ui.listkelas.CoursesAdapter
 
 
 class ProfileFragment : Fragment() {
@@ -39,5 +41,15 @@ class ProfileFragment : Fragment() {
         viewModel.profile.observe(viewLifecycleOwner){it->
             binding.user = it
         }
+        viewModel.getCompletedCourses()
+        var completedCourseAdapter = CoursesAdapter()
+        viewModel.completedCourses.observe(viewLifecycleOwner){it->
+            it.onSuccess { list->
+                completedCourseAdapter.submitList(list)
+            }
+        }
+        binding.rvCompletedCoursesProfile.adapter = completedCourseAdapter
+        binding.rvCompletedCoursesProfile.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+
     }
 }

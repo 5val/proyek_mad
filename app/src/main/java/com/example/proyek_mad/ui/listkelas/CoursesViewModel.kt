@@ -1,5 +1,6 @@
 package com.example.proyek_mad.ui.listkelas
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,13 +21,19 @@ class CoursesViewModel(
         getAll()
     }
     fun search(keyword:String){
-        viewModelScope.launch {
-            _courses.value = _courses.value?.onSuccess{item-> item.filter { it.nama_kelas.contains(keyword) }}
+        if(keyword==""){
+            refresh()
+            return
+        }
+        _courses.value = _courses.value?.map { item ->
+            item.filter {
+                it.nama_kelas.contains(keyword)
+            }
         }
     }
     fun getAll(){
         viewModelScope.launch {
-            _courses.value = myRepository.getAllPublishedCourses()
+            _courses.value = myRepository.getAllPublishedCourses(MockDB.currentUser.user_id)
         }
 
     }

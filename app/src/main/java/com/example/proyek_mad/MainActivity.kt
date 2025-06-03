@@ -18,9 +18,21 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         val navHost = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHost.navController
-        binding.button.setOnClickListener {
-            var intent = Intent(this, UserActivity::class.java)
-            startActivity(intent)
+        val bottomNav = binding.bottomNavigationView
+        bottomNav.setOnNavigationItemSelectedListener { item->
+            when (item.itemId){
+                R.id.login_mi->{
+                    navController.navigate(R.id.action_global_loginFragment)
+                    true
+                }
+                R.id.register_mi->{
+                    navController.navigate(R.id.action_global_registerFragment)
+                    true
+                }
+                else->false
+            }
+
+
         }
     }
 }

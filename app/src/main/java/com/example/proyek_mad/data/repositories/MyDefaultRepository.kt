@@ -1,5 +1,6 @@
 package com.example.proyek_mad.data.repositories
 
+import android.util.Log
 import com.example.proyek_mad.data.Course
 import com.example.proyek_mad.data.Module
 import com.example.proyek_mad.data.Option
@@ -27,8 +28,11 @@ class MyDefaultRepository(
         remoteDataSource.login(request).onSuccess {it->
             return it.toUser()
         }.onFailure {
-            // logika dao
+           err->
+            Log.e("error", err.toString(), )
         }
+
+
         return User(0, "", "", "", "")
     }
 
@@ -43,8 +47,8 @@ class MyDefaultRepository(
         return remoteDataSource.editPengguna(userId, request)
     }
 
-    override suspend fun getAllPublishedCourses(): Result<List<Course>> {
-        return remoteDataSource.getAllPublishedCourses().map { list ->
+    override suspend fun getAllPublishedCourses(userId: Int): Result<List<Course>> {
+        return remoteDataSource.getAllPublishedCourses(userId).map { list ->
             list.map { it.toCourse() }
         }
     }

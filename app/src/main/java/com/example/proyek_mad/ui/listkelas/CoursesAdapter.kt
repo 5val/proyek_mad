@@ -36,6 +36,8 @@ class CoursesAdapter ():ListAdapter<Course, CoursesAdapter.ViewHolder>(courseDif
         holder.binding.root.setOnClickListener{
             onItemClickListener?.invoke(course)
         }
+        holder.binding.txtCourseProgressCard.text = course.progress.toString()+"%"
+        holder.binding.courseProgressBarCard.progress = course.progress
 
     }
 

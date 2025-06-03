@@ -46,22 +46,23 @@ class HomeFragment : Fragment() {
         binding.rvOngoingCoursesHome.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
 
         binding.rvCompletedCoursesProfile.adapter = completedCourseAdapter
-        binding.rvOngoingCoursesHome.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+        binding.rvCompletedCoursesProfile.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
 
         viewModel.ongoingCourses.observe(viewLifecycleOwner) { result ->
             result.onSuccess { courseList ->
                 ongoingCourseAdapter.submitList(courseList)
             }.onFailure { error ->
-                Toast.makeText(this.context, "Error fetching database", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this.context, "Error fetching ongoing", Toast.LENGTH_SHORT).show()
             }
         }
         viewModel.completedCourses.observe(viewLifecycleOwner) { result ->
             result.onSuccess { courseList ->
                 completedCourseAdapter.submitList(courseList)
             }.onFailure { error ->
-                Toast.makeText(this.context, "Error fetching database", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this.context, "Error fetching completed", Toast.LENGTH_SHORT).show()
             }
         }
+        viewModel.getAll()
     }
 
 }

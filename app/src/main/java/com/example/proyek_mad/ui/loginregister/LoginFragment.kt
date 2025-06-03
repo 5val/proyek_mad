@@ -55,6 +55,7 @@ class LoginFragment : Fragment() {
                 email.error = "Email tidak valid"
                 return@setOnClickListener
             }
+            viewModel.login(emailInput, passwordInput)
         }
 
         viewModel.loginSuccess.observe(viewLifecycleOwner){ it->

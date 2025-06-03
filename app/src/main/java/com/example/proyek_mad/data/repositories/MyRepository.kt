@@ -24,7 +24,7 @@ interface MyRepository {
     suspend fun editPengguna(userId: Int, request: EditPenggunaRequest): Result<BasicResponse>
 
     // Course and Enrollment Operations
-    suspend fun getAllPublishedCourses(): Result<List<Course>>
+    suspend fun getAllPublishedCourses(userId: Int): Result<List<Course>>
     suspend fun getCourseById(courseId: Int): Result<Course>
     suspend fun getOngoingCourse(userId: Int): Result<List<Course>>
     suspend fun getCompletedCourse(userId: Int): Result<List<Course>>

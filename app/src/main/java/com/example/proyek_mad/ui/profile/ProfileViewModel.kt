@@ -8,6 +8,9 @@ import com.example.proyek_mad.data.Course
 import com.example.proyek_mad.data.MockDB
 import com.example.proyek_mad.data.User
 import com.example.proyek_mad.data.repositories.MyRepository
+import com.example.proyek_mad.data.sources.remote.request.EditPenggunaRequest
+import com.example.proyek_mad.data.sources.remote.request.LoginRequest
+import com.example.proyek_mad.data.sources.remote.response.BasicResponse
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(
@@ -16,6 +19,12 @@ class ProfileViewModel(
     private val _profile = MutableLiveData<User>()
     val profile: LiveData<User>
         get() = _profile
+    private val _editSuccess = MutableLiveData<Result<BasicResponse>>()
+    val editSuccess: LiveData<Result<BasicResponse>>
+        get() = _editSuccess
+    private val _completedCourses = MutableLiveData<Result<List<Course>>>()
+    val completedCourses:LiveData<Result<List<Course>>>
+        get() = _completedCourses
     fun init(){
         viewModelScope.launch {
             _profile.value = MockDB.currentUser
@@ -23,8 +32,18 @@ class ProfileViewModel(
     }
     fun updateProfile(name:String, password:String){
         viewModelScope.launch {
-            MockDB.currentUser.nama_lengkap = name
-            MockDB.currentUser.password = password
+            _editSuccess.value = myRepository.editPengguna(
+                MockDB.currentUser.user_id,
+                EditPenggunaRequest(
+                    password,
+                    name
+                )
+            )
+        }
+    }
+    fun updateMockDB(){
+        viewModelScope.launch {
+            MockDB.currentUser = myRepository.login(LoginRequest(MockDB.currentUser.email, MockDB.currentUser.password))
         }
     }
     fun validatePassword(password:String, confirmPassword:String):Boolean{
@@ -32,5 +51,10 @@ class ProfileViewModel(
             return true
         }
         return false
+    }
+    fun getCompletedCourses(){
+        viewModelScope.launch {
+            _completedCourses.value = myRepository.getCompletedCourse(MockDB.currentUser.user_id)
+        }
     }
 }

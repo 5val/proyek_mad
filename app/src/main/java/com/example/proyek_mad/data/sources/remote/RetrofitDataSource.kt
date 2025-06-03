@@ -53,8 +53,8 @@ class RetrofitDataSource(private val apiService: WebService) : RemoteDataSource 
     }
 
     // Course and Enrollment Operations
-    override suspend fun getAllPublishedCourses(): Result<List<CourseJson>> {
-        return safeApiCall { apiService.getAllPublishedCourses() }
+    override suspend fun getAllPublishedCourses(userId: Int): Result<List<CourseJson>> {
+        return safeApiCall { apiService.getAllPublishedCourses(userId) }
     }
 
     override suspend fun getCourseById(courseId: Int): Result<CourseJson> {

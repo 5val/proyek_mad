@@ -19,6 +19,10 @@ class HomeViewModel(
     private val _completedCourses = MutableLiveData<Result<List<Course>>>()
     val completedCourses:LiveData<Result<List<Course>>>
         get() = _completedCourses
+    
+    private val _allCourses = MutableLiveData<Result<List<Course>>>()
+    val allCourses:LiveData<Result<List<Course>>>
+        get() = _allCourses
 
     fun refresh(){
 

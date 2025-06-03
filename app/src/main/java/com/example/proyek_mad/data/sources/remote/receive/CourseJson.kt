@@ -9,15 +9,15 @@ data class CourseJson(
     val nama_kelas: String,
     val deskripsi_kelas: String?,
     val prasyarat_kelas_id: Int?,
-    val created_at: String,
-    val updated_at: String
+    val progress:Int
 ){
     fun toCourse(): Course {
         return Course(
             kelas_id = this.kelas_id,
             nama_kelas = this.nama_kelas,
             deskripsi_kelas = this.deskripsi_kelas,
-            prasyarat_kelas_id = this.prasyarat_kelas_id
+            prasyarat_kelas_id = this.prasyarat_kelas_id,
+            progress = this.progress
         )
     }
 }

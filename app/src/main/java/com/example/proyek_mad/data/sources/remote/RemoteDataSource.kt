@@ -23,7 +23,7 @@ interface RemoteDataSource {
     suspend fun editPengguna(userId: Int, request: EditPenggunaRequest): Result<BasicResponse>
 
     // Course and Enrollment Operations
-    suspend fun getAllPublishedCourses(): Result<List<CourseJson>>
+    suspend fun getAllPublishedCourses(userId:Int): Result<List<CourseJson>>
     suspend fun getCourseById(courseId: Int): Result<CourseJson>
     suspend fun getOngoingCourse(userId: Int): Result<List<CourseJson>>
     suspend fun getCompletedCourse(userId: Int): Result<List<CourseJson>>
