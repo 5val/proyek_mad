@@ -38,11 +38,11 @@ interface RemoteDataSource {
     suspend fun getSoalKuis(urutan_soal: Int, kuis_id: Int): Result<QuestionJson>
     suspend fun getAllSoalKuis(kuis_id: Int): Result<List<QuestionJson>>
     suspend fun getPilihanSoal(soal_id: Int): Result<List<OptionJson>>
-    suspend fun getNilaiTerbaik(user_id: Int, kelas_id: Int): Result<BestScoreJson>
+    suspend fun getNilaiTerbaik(kelas_id: Int, user_id: Int): Result<BestScoreJson>
     suspend fun getAllKuisAttempt(kuis_id: Int, user_id: Int): Result<List<QuizAttemptJson>>
     suspend fun getKuisAttemptTerakhir(): Result<QuizAttemptJson>
-    suspend fun getEnrollment(user_id: Int, kelas_id: Int): Result<EnrollmentJson>
+    suspend fun getEnrollment(kelas_id: Int, user_id: Int): Result<EnrollmentJson>
     suspend fun startKuis(createQuizAttemptRequest: CreateQuizAttemptRequest, kuis_id: Int): Result<QuizAttemptJson>
-    suspend fun nilaiKuis(scoreQuizRequest: ScoreQuizRequest, attempt_id: Int): Result<EnrollmentJson>
+    suspend fun nilaiKuis(scoreQuizRequest: ScoreQuizRequest, attempt_id: Int?): Result<EnrollmentJson>
     suspend fun jawabSoal(quizAnswerRequest: QuizAnswerRequest, soal_id: Int): Result<QuizAttemptJson>
 }

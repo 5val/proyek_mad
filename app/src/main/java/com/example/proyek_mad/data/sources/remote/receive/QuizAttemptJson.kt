@@ -1,6 +1,5 @@
 package com.example.proyek_mad.data.sources.remote.receive
 
-import com.example.proyek_mad.data.Quiz
 import com.example.proyek_mad.data.QuizAttempt
 import com.squareup.moshi.JsonClass
 
@@ -10,8 +9,8 @@ data class QuizAttemptJson(
     val user_id:Int,
     val kuis_id:Int,
     val enrollment_id:Int,
-    var skor_diperoleh:Int,
-    var status_lulus:Int,
+    var skor_diperoleh:Int?,
+    var status_lulus:Int?,
     val created_at: String,
     val updated_at: String
 ){

@@ -99,8 +99,8 @@ class MyDefaultRepository(
         }
     }
 
-    override suspend fun getNilaiTerbaik(user_id: Int, kelas_id: Int): Result<BestScoreJson> {
-        return remoteDataSource.getNilaiTerbaik(user_id, kelas_id)
+    override suspend fun getNilaiTerbaik(kelas_id: Int, user_id: Int): Result<BestScoreJson> {
+        return remoteDataSource.getNilaiTerbaik(kelas_id, user_id)
     }
 
     override suspend fun getAllKuisAttempt(kuis_id: Int, user_id: Int): Result<List<QuizAttempt>> {
@@ -115,8 +115,8 @@ class MyDefaultRepository(
         }
     }
 
-    override suspend fun getEnrollment(user_id: Int, kelas_id: Int): Result<EnrollmentJson> {
-        return remoteDataSource.getEnrollment(user_id, kelas_id)
+    override suspend fun getEnrollment(kelas_id: Int, user_id: Int): Result<EnrollmentJson> {
+        return remoteDataSource.getEnrollment(kelas_id, user_id)
     }
 
     override suspend fun startKuis(
@@ -130,7 +130,7 @@ class MyDefaultRepository(
 
     override suspend fun nilaiKuis(
         scoreQuizRequest: ScoreQuizRequest,
-        attempt_id: Int
+        attempt_id: Int?
     ): Result<EnrollmentJson> {
         return remoteDataSource.nilaiKuis(scoreQuizRequest, attempt_id)
     }

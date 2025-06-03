@@ -1,5 +1,6 @@
 package com.example.proyek_mad.ui.detailkelas
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -31,7 +32,7 @@ class CourseDetailViewModel(
 //            if(kuisAttempts.size > 0) {
 //                nilaiTerbaik = kuisAttempts[0].skor_diperoleh
 //            }
-            _nilaiTerbaik.value = myRepository.getNilaiTerbaik(MockDB.currentUser.user_id, MockDB.selectedKelas).getOrNull()?.nilai?: 0
+            _nilaiTerbaik.value = myRepository.getNilaiTerbaik(MockDB.selectedKelas, MockDB.currentUser.user_id).getOrNull()?.nilai?: 0
         }
     }
 

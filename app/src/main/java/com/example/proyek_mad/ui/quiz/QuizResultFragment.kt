@@ -17,7 +17,7 @@ import com.example.proyek_mad.databinding.FragmentQuizResultBinding
 
 class QuizResultFragment : Fragment() {
     lateinit var binding: FragmentQuizResultBinding
-    val viewModel: QuizViewModel by viewModels<QuizViewModel> { MyViewModelFactory }
+    val viewModel: QuizViewModel by activityViewModels<QuizViewModel> { MyViewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,6 +34,7 @@ class QuizResultFragment : Fragment() {
         binding.lifecycleOwner = this
 
         binding.btnUlangi.setOnClickListener {
+            viewModel.refresh()
             findNavController().navigate(R.id.action_quizResultFragment_to_quizFragment)
         }
 

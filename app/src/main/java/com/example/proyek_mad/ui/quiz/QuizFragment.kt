@@ -18,7 +18,7 @@ import com.example.proyek_mad.databinding.FragmentQuizBinding
 
 class QuizFragment : Fragment() {
     lateinit var binding: FragmentQuizBinding
-    val viewModel: QuizViewModel by viewModels<QuizViewModel> { MyViewModelFactory}
+    val viewModel: QuizViewModel by activityViewModels<QuizViewModel> { MyViewModelFactory}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

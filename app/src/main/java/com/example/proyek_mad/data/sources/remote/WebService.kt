@@ -76,7 +76,7 @@ interface WebService {
     suspend fun getPilihanSoal(@Path("soal_id") soal_id: Int): Response<List<OptionJson>>
 
     @GET("max_nilai/{kelas_id}")
-    suspend fun getNilaiTerbaik(@Query("user_id") user_id: Int, @Path("kelas_id") kelas_id: Int): Response<BestScoreJson>
+    suspend fun getNilaiTerbaik(@Path("kelas_id") kelas_id: Int, @Query("user_id") user_id: Int): Response<BestScoreJson>
 
     @GET("attempt/{user_id}")
     suspend fun getAllKuisAttempt(@Query("kuis_id") kuis_id: Int, @Path("user_id") user_id: Int): Response<List<QuizAttemptJson>>
@@ -85,13 +85,13 @@ interface WebService {
     suspend fun getKuisAttemptTerakhir(): Response<QuizAttemptJson>
 
     @GET("enrollment/{kelas_id}")
-    suspend fun getEnrollment(@Query("user_id") user_id: Int, @Path("kelas_id") kelas_id: Int): Response<EnrollmentJson>
+    suspend fun getEnrollments(@Path("kelas_id") kelas_id: Int, @Query("user_id") user_id: Int): Response<EnrollmentJson>
 
     @POST("start_kuis/{kuis_id}")
     suspend fun startKuis(@Body createQuizAttemptRequest: CreateQuizAttemptRequest, @Path("kuis_id") kuis_id: Int): Response<QuizAttemptJson>
 
     @POST("nilai_kuis/{attempt_id}")
-    suspend fun nilaiKuis(@Body scoreQuizRequest: ScoreQuizRequest, @Path("attempt_id") attempt_id: Int): Response<EnrollmentJson>
+    suspend fun nilaiKuis(@Body scoreQuizRequest: ScoreQuizRequest, @Path("attempt_id") attempt_id: Int?): Response<EnrollmentJson>
 
     @POST("jawab_soal/{soal_id}")
     suspend fun jawabSoal(@Body quizAnswerRequest: QuizAnswerRequest, @Path("soal_id") soal_id: Int): Response<QuizAttemptJson>
