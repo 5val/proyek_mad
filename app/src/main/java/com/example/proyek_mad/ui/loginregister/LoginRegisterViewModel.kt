@@ -16,6 +16,7 @@ class LoginRegisterViewModel : ViewModel() {
     }
 
     fun login(email: String, password: String): Boolean {
+        
         return registeredUsers.any {
             it.email.equals(email, ignoreCase = true) && it.password == password
         }
