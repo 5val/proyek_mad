@@ -7,11 +7,14 @@ import java.util.Date
 
 @Entity(
     tableName = "kelas",
+    primaryKeys = ["kelasId", "userId"]
 )
 data class CourseEntity(
-    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "kelas_id")
     val kelasId: Int = 0,
+
+    @ColumnInfo(name = "user_id")
+    val userId: Int = 0,
 
     @ColumnInfo(name = "nama_kelas")
     val namaKelas: String,

@@ -69,7 +69,11 @@
         android:id="@+id/moduleFragment"
         android:name="com.example.proyek_mad.ui.listmodule.ModuleFragment"
         android:label="fragment_module"
-        tools:layout="@layout/fragment_module" />
+        tools:layout="@layout/fragment_module" >
+        <action
+            android:id="@+id/action_moduleFragment_to_geminiFragment"
+            app:destination="@id/geminiFragment" />
+    </fragment>
     <fragment
         android:id="@+id/quizFragment"
         android:name="com.example.proyek_mad.ui.quiz.QuizFragment"
@@ -89,5 +93,13 @@
         <action
             android:id="@+id/action_quizResultFragment_to_quizFragment"
             app:destination="@id/quizFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/geminiFragment"
+        android:name="com.example.proyek_mad.ui.askgemini.GeminiFragment"
+        android:label="GeminiFragment" >
+        <action
+            android:id="@+id/action_geminiFragment_to_moduleFragment"
+            app:destination="@id/moduleFragment" />
     </fragment>
 </navigation>

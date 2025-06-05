@@ -16,6 +16,12 @@ object MockDB {
 
     )
 
+    var geminiChats:List<Chat> = listOf(
+        Chat(1, 1, "Hello, how can I help you?"),
+        Chat(2, 2, "Apa itu iSTTS"),
+        Chat(3, 1, "iSTTS adalah kampus AI yang terletak di Ngagel, Surabaya. iSTTS terkenal dengan penggunaan AI untuk mendukung pembelajarannya.")
+    )
+
     var modules:List<Module> = listOf(
         Module(
             materi_id = 1,

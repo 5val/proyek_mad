@@ -56,6 +56,10 @@ class ModuleFragment : Fragment() {
             findNavController().navigate(action)
         }
 
+        binding.btnAskGemini.setOnClickListener {
+            findNavController().navigate(R.id.action_moduleFragment_to_geminiFragment)
+        }
+
         val observer = Observer<Result<Module>>{it ->
             it.onSuccess {
                 binding.txtModuleTitleCard.setText(it.judul_materi.toString())
