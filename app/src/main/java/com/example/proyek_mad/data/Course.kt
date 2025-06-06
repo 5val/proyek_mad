@@ -7,5 +7,6 @@ data class Course (
     val nama_kelas:String,
     val deskripsi_kelas:String?,
     val prasyarat_kelas_id:Int?,
-    val progress:Int
+    val progress:Int,
+    val attended:String
 )

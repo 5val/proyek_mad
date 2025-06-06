@@ -42,7 +42,6 @@ class ModuleFragment : Fragment() {
             binding.progressIndicator.progress = current
         }
 
-
         binding.btnPrevious.setOnClickListener {
             viewModel.previous()
         }
@@ -69,7 +68,6 @@ class ModuleFragment : Fragment() {
                 } else {
                     binding.btnPrevious.isEnabled = true
                 }
-
                 if (MockDB.selectedMateri == viewModel.maxMateri.value) {
                     binding.btnNext.isEnabled = false
                 } else {

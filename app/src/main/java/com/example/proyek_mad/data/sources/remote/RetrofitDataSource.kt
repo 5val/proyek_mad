@@ -14,6 +14,7 @@ import com.example.proyek_mad.data.sources.remote.request.CreateQuizAttemptReque
 import com.example.proyek_mad.data.sources.remote.request.EditPenggunaRequest
 import com.example.proyek_mad.data.sources.remote.request.EnrollmentRequest
 import com.example.proyek_mad.data.sources.remote.request.LoginRequest
+import com.example.proyek_mad.data.sources.remote.request.NextMateriRequest
 import com.example.proyek_mad.data.sources.remote.request.QuizAnswerRequest
 import com.example.proyek_mad.data.sources.remote.request.RegisterRequest
 import com.example.proyek_mad.data.sources.remote.request.ScoreQuizRequest
@@ -83,6 +84,12 @@ class RetrofitDataSource(private val apiService: WebService) : RemoteDataSource 
     override suspend fun getMaterialById(materialId: Int): Result<MaterialJson> {
         return safeApiCall { apiService.getMaterialById(materialId) }
     }
+
+    override suspend fun nextMateri(nextMateriRequest: NextMateriRequest) {
+        apiService.nextMateri(nextMateriRequest)
+    }
+
+    // Quiz Operation
 
     override suspend fun getKuisKelas(kelas_id: Int): Result<QuizJson> {
         return safeApiCall { apiService.getKuisKelas(kelas_id) }

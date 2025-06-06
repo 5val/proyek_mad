@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.proyek_mad.data.MockDB
 import com.example.proyek_mad.data.Module
 import com.example.proyek_mad.data.repositories.MyRepository
+import com.example.proyek_mad.data.sources.remote.receive.EnrollmentJson
 import kotlinx.coroutines.launch
 
 class CourseDetailViewModel(
@@ -16,11 +17,18 @@ class CourseDetailViewModel(
     private val _materi = MutableLiveData<Result<List<Module>>>()
     val materi: LiveData<Result<List<Module>>>
         get() = _materi
+    private val _enrollment = MutableLiveData<Result<EnrollmentJson>>()
+    val enrollment: LiveData<Result<EnrollmentJson>>
+        get() = _enrollment
 
     private val _nilaiTerbaik = MutableLiveData<Int>(0)
     val nilaiTerbaik: LiveData<Int>
         get() = _nilaiTerbaik
-
+    fun fetchEnrollment(){
+        viewModelScope.launch {
+            _enrollment.value = myRepository.getEnrollment(MockDB.currentUser.user_id, MockDB.selectedKelas)
+        }
+    }
     fun refresh() {
         viewModelScope.launch {
             _materi.value = myRepository.getMaterialsByCourse(MockDB.selectedKelas)

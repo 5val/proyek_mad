@@ -31,10 +31,10 @@ class CourseDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.refresh()
         val courseDetailAdapter = CourseDetailAdapter()
         binding.vm = viewModel
         binding.lifecycleOwner = this
+        viewModel.fetchEnrollment()
 
         val observer = Observer<Result<List<Module>>>{it ->
             it.onSuccess {list->
@@ -46,6 +46,14 @@ class CourseDetailFragment : Fragment() {
 
         }
         viewModel.materi.observe(viewLifecycleOwner, observer)
+        viewModel.enrollment.observe(viewLifecycleOwner){it->
+            it.onSuccess {
+                courseDetailAdapter.last_kelas = it.materi_terakhir_diakses_id?:0
+                viewModel.refresh()
+            }.onFailure {
+                Toast.makeText(this.context, "Error fetching database", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         courseDetailAdapter.onItemClickListener =  {m ->
             var action = CourseDetailFragmentDirections.actionGlobalModuleFragment()

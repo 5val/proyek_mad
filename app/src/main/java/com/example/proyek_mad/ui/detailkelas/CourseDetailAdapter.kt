@@ -24,6 +24,7 @@ val courseDetailDiffUtil = CourseDetailDiffUtil()
 
 class CourseDetailAdapter:ListAdapter<Module, CourseDetailAdapter.ViewHolder>(courseDetailDiffUtil) {
     var onItemClickListener:((Module)->Unit)? = null
+    var last_kelas:Int = 0
 
     class ViewHolder(val binding:ItemModuleCardBinding):RecyclerView.ViewHolder(binding.root)
 
@@ -39,13 +40,18 @@ class CourseDetailAdapter:ListAdapter<Module, CourseDetailAdapter.ViewHolder>(co
         val materiku = getItem(position)
         holder.binding.txtModuleDescCard.setText(materiku.deskripsi_singkat.toString())
         holder.binding.txtModuleTitleCard.setText(materiku.judul_materi.toString())
-
         holder.binding.root.setOnClickListener{
             MockDB.selectedMateri = materiku.materi_id
             MockDB.selectedKelas = materiku.kelas_id
-
             onItemClickListener?.invoke(materiku)
         }
+        if(materiku.materi_id > last_kelas && position>0){
+            holder.binding.root.isEnabled = false
+            holder.binding.root.alpha = 0.5f
+        } else{
+            holder.binding.root.isEnabled = true
+            holder.binding.root.alpha = 1f
 
+        }
     }
 }

@@ -12,6 +12,7 @@ import com.example.proyek_mad.data.sources.remote.receive.UserJson
 import com.example.proyek_mad.data.sources.remote.request.CreateQuizAttemptRequest
 import com.example.proyek_mad.data.sources.remote.request.EditPenggunaRequest
 import com.example.proyek_mad.data.sources.remote.request.LoginRequest
+import com.example.proyek_mad.data.sources.remote.request.NextMateriRequest
 import com.example.proyek_mad.data.sources.remote.request.QuizAnswerRequest
 import com.example.proyek_mad.data.sources.remote.request.RegisterRequest
 import com.example.proyek_mad.data.sources.remote.request.ScoreQuizRequest
@@ -32,7 +33,7 @@ interface RemoteDataSource {
     // Material Operations
     suspend fun getMaterialsByCourse(courseId: Int): Result<List<MaterialJson>>
     suspend fun getMaterialById(materialId: Int): Result<MaterialJson>
-
+    suspend fun nextMateri(nextMateriRequest: NextMateriRequest)
     // quiz
     suspend fun getKuisKelas(kelas_id: Int): Result<QuizJson>
     suspend fun getSoalKuis(urutan_soal: Int, kuis_id: Int): Result<QuestionJson>

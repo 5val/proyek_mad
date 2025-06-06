@@ -1,5 +1,6 @@
 package com.example.proyek_mad.ui.listkelas
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -33,12 +34,23 @@ class CoursesAdapter ():ListAdapter<Course, CoursesAdapter.ViewHolder>(courseDif
         val course = getItem(position)
         holder.binding.txtCourseTitleCard.setText(course.nama_kelas.toString())
         holder.binding.txtCourseDescCard.setText(course.deskripsi_kelas.toString())
+
         holder.binding.root.setOnClickListener{
             onItemClickListener?.invoke(course)
         }
         holder.binding.txtCourseProgressCard.text = course.progress.toString()+"%"
         holder.binding.courseProgressBarCard.progress = course.progress
-
+        if (course.attended == "belum"){
+            Log.e("debug", course.nama_kelas+"is debug" )
+            holder.binding.root.alpha = 0.5f
+        }else {
+            Log.e("debug", course.nama_kelas+" - "+course.attended )
+            holder.binding.root.alpha = 1.0f
+        }
+        holder.binding.root.post{
+            holder.binding.root.invalidate()
+            holder.binding.root.requestLayout()
+        }
     }
 
 }

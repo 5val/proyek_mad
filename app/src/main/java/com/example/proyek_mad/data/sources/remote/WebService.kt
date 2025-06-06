@@ -12,6 +12,7 @@ import com.example.proyek_mad.data.sources.remote.request.CreateQuizAttemptReque
 import com.example.proyek_mad.data.sources.remote.request.EditPenggunaRequest
 import com.example.proyek_mad.data.sources.remote.request.EnrollmentRequest
 import com.example.proyek_mad.data.sources.remote.request.LoginRequest
+import com.example.proyek_mad.data.sources.remote.request.NextMateriRequest
 import com.example.proyek_mad.data.sources.remote.request.QuizAnswerRequest
 import com.example.proyek_mad.data.sources.remote.request.RegisterRequest
 import com.example.proyek_mad.data.sources.remote.request.ScoreQuizRequest
@@ -61,6 +62,8 @@ interface WebService {
     suspend fun getMaterialsByCourse(@Query("kelas_id") kelas_id: Int): Response<List<MaterialJson>>
     @GET("materi/{materiId}")
     suspend fun getMaterialById(@Path("materiId") materialId: Int): Response<MaterialJson>
+    @POST("next_materi")
+    suspend fun nextMateri(@Body nextMateriRequest: NextMateriRequest):Unit
 
     //quiz
     @GET("kuis/{kelas_id}")

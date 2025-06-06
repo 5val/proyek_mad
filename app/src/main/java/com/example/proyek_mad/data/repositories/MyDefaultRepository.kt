@@ -15,6 +15,7 @@ import com.example.proyek_mad.data.sources.remote.receive.UserJson
 import com.example.proyek_mad.data.sources.remote.request.CreateQuizAttemptRequest
 import com.example.proyek_mad.data.sources.remote.request.EditPenggunaRequest
 import com.example.proyek_mad.data.sources.remote.request.LoginRequest
+import com.example.proyek_mad.data.sources.remote.request.NextMateriRequest
 import com.example.proyek_mad.data.sources.remote.request.QuizAnswerRequest
 import com.example.proyek_mad.data.sources.remote.request.RegisterRequest
 import com.example.proyek_mad.data.sources.remote.request.ScoreQuizRequest
@@ -72,6 +73,7 @@ class MyDefaultRepository(
     override suspend fun enrollUserToCourse(kelasId: Int, userId: Int): Result<BasicResponse> {
         return remoteDataSource.enrollUserToCourse(kelasId, userId)
     }
+    // Material Operation
 
     override suspend fun getMaterialsByCourse(courseId: Int): Result<List<Module>> {
         return remoteDataSource.getMaterialsByCourse(courseId).map { list->
@@ -84,6 +86,11 @@ class MyDefaultRepository(
             it.toMaterial()
         }
     }
+
+    override suspend fun nextMateri(nextMateriRequest: NextMateriRequest) {
+            remoteDataSource.nextMateri(nextMateriRequest)
+    }
+    // Quiz
 
     override suspend fun getKuisKelas(kelas_id: Int): Result<Quiz> {
         return remoteDataSource.getKuisKelas(kelas_id).map {

@@ -8,6 +8,8 @@ import com.example.proyek_mad.data.Course
 import com.example.proyek_mad.data.MockDB
 import com.example.proyek_mad.data.Module
 import com.example.proyek_mad.data.repositories.MyRepository
+import com.example.proyek_mad.data.sources.remote.receive.EnrollmentJson
+import com.example.proyek_mad.data.sources.remote.request.NextMateriRequest
 import kotlinx.coroutines.launch
 
 class ModuleViewModel(
@@ -39,6 +41,7 @@ class ModuleViewModel(
 
     fun refresh() {
         viewModelScope.launch {
+            myRepository.nextMateri(NextMateriRequest(MockDB.currentUser.user_id, MockDB.selectedKelas, MockDB.selectedMateri))
             _module.value = myRepository.getMaterialById(MockDB.selectedMateri)
         }
     }

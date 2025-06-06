@@ -9,7 +9,8 @@ data class CourseJson(
     val nama_kelas: String,
     val deskripsi_kelas: String?,
     val prasyarat_kelas_id: Int?,
-    val progress:Int
+    val progress:Int,
+    val attended:String?
 ){
     fun toCourse(): Course {
         return Course(
@@ -17,7 +18,8 @@ data class CourseJson(
             nama_kelas = this.nama_kelas,
             deskripsi_kelas = this.deskripsi_kelas,
             prasyarat_kelas_id = this.prasyarat_kelas_id,
-            progress = this.progress
+            progress = this.progress,
+            attended = this.attended?:"belum"
         )
     }
 }

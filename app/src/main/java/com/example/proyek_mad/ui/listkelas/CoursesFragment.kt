@@ -41,8 +41,14 @@ class CoursesFragment : Fragment() {
         binding.lifecycleOwner = this
 
         coursesAdapter.onItemClickListener = {course->
-            MockDB.selectedKelas = course.kelas_id
-            findNavController().navigate(R.id.action_coursesFragment_to_courseDetailFragment)
+            viewModel.clickClass(course)
+        }
+        viewModel.message.observe(viewLifecycleOwner){it->
+            it.onSuccess {
+                findNavController().navigate(R.id.action_coursesFragment_to_courseDetailFragment)
+            }.onFailure {err->
+                Toast.makeText(this.context, err.message, Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.rvCourses.adapter = coursesAdapter
@@ -66,5 +72,6 @@ class CoursesFragment : Fragment() {
                 Toast.makeText(this.context, "Error fetching database", Toast.LENGTH_SHORT).show()
             }
         }
+
     }
 }
