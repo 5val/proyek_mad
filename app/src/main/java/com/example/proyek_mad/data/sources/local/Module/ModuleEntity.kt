@@ -22,6 +22,9 @@ data class ModuleEntity(
     @ColumnInfo(name = "deskripsi_singkat")
     val deskripsiSingkat: String,
 
+    @ColumnInfo(name = "tipe_materi")
+    val tipeMateri: String = "text",
+
     @ColumnInfo(name = "konten_materi")
     val kontenMateri: String?,
 

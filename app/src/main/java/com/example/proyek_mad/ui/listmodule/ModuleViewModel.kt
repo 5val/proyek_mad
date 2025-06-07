@@ -36,6 +36,7 @@ class ModuleViewModel(
                 ?.getOrNull()
                 ?.maxOfOrNull { it.materi_id }
                 ?: 0
+//            _toastku.value = "${_maxMateri.value} sekarang:${MockDB.selectedMateri}"
         }
     }
 

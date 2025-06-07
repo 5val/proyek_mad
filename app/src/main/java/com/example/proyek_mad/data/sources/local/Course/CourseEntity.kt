@@ -7,7 +7,7 @@ import java.util.Date
 
 @Entity(
     tableName = "kelas",
-    primaryKeys = ["kelasId", "userId"]
+    primaryKeys = ["kelas_id", "user_id"]
 )
 data class CourseEntity(
     @ColumnInfo(name = "kelas_id")
@@ -24,7 +24,6 @@ data class CourseEntity(
 
     @ColumnInfo(name = "prasyarat_kelas_id")
     val prasyaratKelasId: Int?,
-
 //    @ColumnInfo(name = "created_at")
 //    val createdAt: Date = Date(),
 //
