@@ -3,6 +3,8 @@ package com.example.proyek_mad
 import android.app.Application
 import com.example.proyek_mad.data.repositories.MyDefaultRepository
 import com.example.proyek_mad.data.repositories.MyRepository
+import com.example.proyek_mad.data.sources.local.AppDatabase
+import com.example.proyek_mad.data.sources.local.RoomDataSource
 //import com.example.proyek_mad.data.sources.local.AppDatabase
 //import com.example.proyek_mad.data.sources.local.RoomDataSource
 import com.example.proyek_mad.data.sources.remote.RetrofitDataSource
@@ -22,10 +24,10 @@ class MyApplication:Application() {
         val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
         val retrofit = Retrofit.Builder().addConverterFactory(
             MoshiConverterFactory.create(moshi)
-        ).baseUrl("http://<>:8000/api/").build()
+        ).baseUrl("http://192.168.100.116:8000/api/").build()
         val retrofitService = retrofit.create(WebService::class.java)
         myRepository = MyDefaultRepository(
-//            RoomDataSource(AppDatabase.getInstance(baseContext)),
+            RoomDataSource(AppDatabase.getInstance(baseContext)),
             RetrofitDataSource(retrofitService)
         )
     }

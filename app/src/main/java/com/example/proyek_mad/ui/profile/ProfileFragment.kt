@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyek_mad.MyViewModelFactory
 import com.example.proyek_mad.R
+import com.example.proyek_mad.data.Chat
 import com.example.proyek_mad.data.MockDB
 import com.example.proyek_mad.databinding.FragmentProfileBinding
 import com.example.proyek_mad.ui.listkelas.CoursesAdapter
@@ -31,11 +32,20 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this
         binding.user = viewModel.profile.value
-        viewModel.init()
+        if(MockDB.onlineMode){
+            viewModel.init()
+            viewModel.updateMockDB()
+        } else{
+            binding.btnEditProfile.isEnabled = false
+        }
+
         binding.btnEditProfile.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
         }
         binding.btnLogout.setOnClickListener {
+            MockDB.geminiChats = listOf(
+                Chat(1, 1, "Hello, how can I help you?"),
+            )
             activity?.finish()
         }
         viewModel.profile.observe(viewLifecycleOwner){it->

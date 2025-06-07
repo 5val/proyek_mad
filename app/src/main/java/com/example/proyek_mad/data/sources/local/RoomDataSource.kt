@@ -12,8 +12,8 @@ class RoomDataSource(private val db: AppDatabase) : LocalDataSource {
         return db.courseDao().getCourseByUserId(userId)
     }
 
-    override suspend fun getCourseById(courseId: Int): CourseEntity? {
-        return db.courseDao().getCourseById(courseId)
+    override suspend fun getCourseById(courseId: Int, userId: Int): CourseEntity? {
+        return db.courseDao().getCourseById(courseId, userId)
     }
 
     override suspend fun insertCourse(courseEntity: CourseEntity): CourseEntity {
@@ -32,15 +32,19 @@ class RoomDataSource(private val db: AppDatabase) : LocalDataSource {
         return db.moduleDao().getModuleByCourseId(courseId)
     }
 
+    override suspend fun getModule(moduleId: Int): ModuleEntity? {
+        return db.moduleDao().getModuleById(moduleId)
+    }
+
     override suspend fun insertModule(moduleEntity: ModuleEntity): ModuleEntity {
         // Asumsi nama metode di DAO adalah 'insertCourse' sesuai definisi awal Anda
-        db.moduleDao().insertCourse(moduleEntity)
+        db.moduleDao().insertModule(moduleEntity)
         return moduleEntity // Mengembalikan objek setelah dimasukkan
     }
 
     override suspend fun deleteModule(moduleEntity: ModuleEntity): ModuleEntity {
         // Asumsi nama metode di DAO adalah 'deleteCourse' sesuai definisi awal Anda
-        db.moduleDao().deleteCourse(moduleEntity)
+        db.moduleDao().deleteModule(moduleEntity)
         return moduleEntity // Mengembalikan objek yang dihapus
     }
 

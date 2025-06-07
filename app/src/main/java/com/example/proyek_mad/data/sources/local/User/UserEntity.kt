@@ -3,11 +3,12 @@ package com.example.proyek_mad.data.sources.local.User
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.proyek_mad.data.User
 import java.util.Date
 
 @Entity(tableName = "pengguna")
 data class UserEntity(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "user_id")
     val userId: Int = 0,
 
@@ -34,4 +35,14 @@ data class UserEntity(
 //
 //    @ColumnInfo(name = "updated_at")
 //    val updatedAt: Date = Date()
-)
+){
+    fun toUser():User{
+        return User(
+        user_id = this.userId,
+        username = this.username?:"",
+        email = this.email,
+        password = this.password,
+        nama_lengkap = this.namaLengkap?:""
+        )
+    }
+}

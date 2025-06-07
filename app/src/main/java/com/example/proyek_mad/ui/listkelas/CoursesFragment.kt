@@ -36,42 +36,59 @@ class CoursesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.refresh()
-        val coursesAdapter = CoursesAdapter()
-        binding.lifecycleOwner = this
+        if(MockDB.onlineMode){
+            binding.refreshtvc.visibility = View.GONE
+            binding.refreshbtnc.visibility = View.GONE
+            viewModel.refresh()
+            val coursesAdapter = CoursesAdapter()
+            binding.lifecycleOwner = this
 
-        coursesAdapter.onItemClickListener = {course->
-            viewModel.clickClass(course)
-        }
-        viewModel.message.observe(viewLifecycleOwner){it->
-            it.onSuccess {
-                findNavController().navigate(R.id.action_coursesFragment_to_courseDetailFragment)
-            }.onFailure {err->
-                Toast.makeText(this.context, err.message, Toast.LENGTH_SHORT).show()
+            coursesAdapter.onItemClickListener = {course->
+                viewModel.clickClass(course)
+            }
+            viewModel.message.observe(viewLifecycleOwner){it->
+                it.onSuccess {
+                    findNavController().navigate(R.id.action_coursesFragment_to_courseDetailFragment)
+                }.onFailure {err->
+                    Toast.makeText(this.context, err.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            binding.rvCourses.adapter = coursesAdapter
+            binding.rvCourses.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+
+            binding.inpSearchCourse.addTextChangedListener(object:TextWatcher{
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    viewModel.search(s.toString())
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                }
+            })
+            viewModel.courses.observe(viewLifecycleOwner) { it ->
+                it.onSuccess {
+                        list->  coursesAdapter.submitList(list)
+                }.onFailure { error ->
+                    Toast.makeText(this.context, "Error fetching database", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } else{
+            binding.refreshbtnc.setOnClickListener{
+                viewModel.checkOnline()
+            }
+            viewModel.onlineCheck.observe(viewLifecycleOwner){it->
+                if(it.user_id == 0){
+                    Toast.makeText(this.context, "Gagal menyambung server", Toast.LENGTH_SHORT).show()
+                } else{
+                    MockDB.onlineMode = true
+                    findNavController().navigate(R.id.action_global_homeFragment)
+                }
             }
         }
 
-        binding.rvCourses.adapter = coursesAdapter
-        binding.rvCourses.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
-
-        binding.inpSearchCourse.addTextChangedListener(object:TextWatcher{
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.search(s.toString())
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-            }
-        })
-        viewModel.courses.observe(viewLifecycleOwner) { it ->
-            it.onSuccess {
-                    list->  coursesAdapter.submitList(list)
-            }.onFailure { error ->
-                Toast.makeText(this.context, "Error fetching database", Toast.LENGTH_SHORT).show()
-            }
-        }
 
     }
 }

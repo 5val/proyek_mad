@@ -35,18 +35,29 @@ class GeminiFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.lifecycleOwner = this
         val geminiAdapter = GeminiAdapter()
-        fun refreshList() {
-            geminiAdapter.submitList(MockDB.geminiChats)
+
+        viewModel.refresh()
+
+        viewModel.arrChat.observe(viewLifecycleOwner){list->
+            geminiAdapter.submitList(list)
+        }
+        viewModel.message.observe(viewLifecycleOwner){it->
+            Toast.makeText(this.context, it, Toast.LENGTH_SHORT).show()
         }
 
         binding.btnBackChat.setOnClickListener {
             findNavController().navigate(R.id.action_geminiFragment_to_moduleFragment)
         }
+        binding.btnSend.setOnClickListener{
+            var textBoxInp = binding.inpChat
+
+            viewModel.sendMessage(textBoxInp.text.toString())
+            textBoxInp.setText("")
+        }
 
         binding.rvChats.adapter = geminiAdapter
         binding.rvChats.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
-        refreshList()
     }
 }

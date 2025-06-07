@@ -12,6 +12,7 @@ import com.example.proyek_mad.data.sources.remote.receive.EnrollmentJson
 import com.example.proyek_mad.data.sources.remote.receive.UserJson
 import com.example.proyek_mad.data.sources.remote.request.CreateQuizAttemptRequest
 import com.example.proyek_mad.data.sources.remote.request.EditPenggunaRequest
+import com.example.proyek_mad.data.sources.remote.request.GeminiRequest
 import com.example.proyek_mad.data.sources.remote.request.LoginRequest
 import com.example.proyek_mad.data.sources.remote.request.NextMateriRequest
 import com.example.proyek_mad.data.sources.remote.request.QuizAnswerRequest
@@ -21,20 +22,24 @@ import com.example.proyek_mad.data.sources.remote.response.BasicResponse
 
 interface MyRepository {
     suspend fun login(request: LoginRequest): User
+    suspend fun updateUser(user: User)
     suspend fun register(request: RegisterRequest): Result<BasicResponse>
     suspend fun editPengguna(userId: Int, request: EditPenggunaRequest): Result<BasicResponse>
 
     // Course and Enrollment Operations
     suspend fun getAllPublishedCourses(userId: Int): Result<List<Course>>
-    suspend fun getCourseById(courseId: Int): Result<Course>
+    suspend fun getCourseById(courseId: Int, userId: Int): Result<Course>
     suspend fun getOngoingCourse(userId: Int): Result<List<Course>>
     suspend fun getCompletedCourse(userId: Int): Result<List<Course>>
     suspend fun enrollUserToCourse(kelasId: Int, userId: Int): Result<BasicResponse>
+    suspend fun getOfflineCourse(userId: Int):List<Course>
+    suspend fun deleteCourse(course: Course, userId: Int)
 
     // Material Operations
     suspend fun getMaterialsByCourse(courseId: Int): Result<List<Module>>
     suspend fun getMaterialById(materialId: Int): Result<Module>
     suspend fun nextMateri(nextMateriRequest: NextMateriRequest)
+    suspend fun downloadCourse(course: Course, userId: Int, modules:List<Module>)
 
 
     // quiz
@@ -49,4 +54,7 @@ interface MyRepository {
     suspend fun startKuis(createQuizAttemptRequest: CreateQuizAttemptRequest, kuis_id: Int): Result<QuizAttempt>
     suspend fun nilaiKuis(scoreQuizRequest: ScoreQuizRequest, attempt_id: Int?): Result<EnrollmentJson>
     suspend fun jawabSoal(quizAnswerRequest: QuizAnswerRequest, soal_id: Int): Result<QuizAttempt>
+
+    // gemini
+    suspend fun askGemini(geminiRequest: GeminiRequest):Result<BasicResponse>
 }

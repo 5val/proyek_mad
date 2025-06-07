@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.proyek_mad.data.Course
 import com.example.proyek_mad.data.MockDB
+import com.example.proyek_mad.data.User
 import com.example.proyek_mad.data.repositories.MyRepository
+import com.example.proyek_mad.data.sources.remote.request.LoginRequest
 import com.example.proyek_mad.data.sources.remote.response.BasicResponse
 import kotlinx.coroutines.launch
 
@@ -20,6 +22,10 @@ class CoursesViewModel(
     private val _message = MutableLiveData<Result<BasicResponse>>()
     val message: LiveData<Result<BasicResponse>>
         get() = _message
+    private val _onlineCheck = MutableLiveData<User>()
+    val onlineCheck:LiveData<User>
+        get() = _onlineCheck
+
 
     fun refresh() {
         getAll()
@@ -49,6 +55,10 @@ class CoursesViewModel(
                 _message.value = Result.success(BasicResponse("Success"))
             }
         }
-
+    }
+    fun checkOnline(){
+        viewModelScope.launch {
+            _onlineCheck.value = myRepository.login(LoginRequest(MockDB.currentUser.email, MockDB.currentUser.password))
+        }
     }
 }

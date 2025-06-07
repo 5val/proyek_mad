@@ -11,6 +11,7 @@ import com.example.proyek_mad.data.sources.remote.receive.UserJson
 import com.example.proyek_mad.data.sources.remote.request.CreateQuizAttemptRequest
 import com.example.proyek_mad.data.sources.remote.request.EditPenggunaRequest
 import com.example.proyek_mad.data.sources.remote.request.EnrollmentRequest
+import com.example.proyek_mad.data.sources.remote.request.GeminiRequest
 import com.example.proyek_mad.data.sources.remote.request.LoginRequest
 import com.example.proyek_mad.data.sources.remote.request.NextMateriRequest
 import com.example.proyek_mad.data.sources.remote.request.QuizAnswerRequest
@@ -49,7 +50,7 @@ interface WebService {
     @GET("allclass/{userId}")
     suspend fun getAllPublishedCourses(@Path("userId") userId: Int): Response<List<CourseJson>>
     @GET("kelas/{courseId}")
-    suspend fun getCourseById(@Path("courseId") courseId: Int): Response<CourseJson>
+    suspend fun getCourseById(@Path("courseId") courseId: Int, @Query("user_id") userId: Int): Response<CourseJson>
     @GET("ongoing/{userId}")
     suspend fun getOngoingCourse(@Path("userId") userId: Int): Response<List<CourseJson>>
     @GET("completed/{userId}")
@@ -98,4 +99,7 @@ interface WebService {
 
     @POST("jawab_soal/{soal_id}")
     suspend fun jawabSoal(@Body quizAnswerRequest: QuizAnswerRequest, @Path("soal_id") soal_id: Int): Response<QuizAttemptJson>
+
+    @POST("ask")
+    suspend fun askGemini(@Body geminiRequest: GeminiRequest):Response<BasicResponse>
 }

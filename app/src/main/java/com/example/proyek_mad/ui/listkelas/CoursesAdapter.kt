@@ -42,10 +42,10 @@ class CoursesAdapter ():ListAdapter<Course, CoursesAdapter.ViewHolder>(courseDif
         holder.binding.courseProgressBarCard.progress = course.progress
         if (course.attended == "belum"){
             Log.e("debug", course.nama_kelas+"is debug" )
-            holder.binding.root.alpha = 0.5f
+            holder.binding.courseImage.alpha = 0.5f
         }else {
             Log.e("debug", course.nama_kelas+" - "+course.attended )
-            holder.binding.root.alpha = 1.0f
+            holder.binding.courseImage.alpha = 1.0f
         }
         holder.binding.root.post{
             holder.binding.root.invalidate()

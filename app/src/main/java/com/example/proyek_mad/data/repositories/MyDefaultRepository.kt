@@ -2,18 +2,21 @@ package com.example.proyek_mad.data.repositories
 
 import android.util.Log
 import com.example.proyek_mad.data.Course
+import com.example.proyek_mad.data.MockDB
 import com.example.proyek_mad.data.Module
 import com.example.proyek_mad.data.Option
 import com.example.proyek_mad.data.Question
 import com.example.proyek_mad.data.Quiz
 import com.example.proyek_mad.data.QuizAttempt
 import com.example.proyek_mad.data.User
+import com.example.proyek_mad.data.sources.local.LocalDataSource
 import com.example.proyek_mad.data.sources.remote.RemoteDataSource
 import com.example.proyek_mad.data.sources.remote.receive.BestScoreJson
 import com.example.proyek_mad.data.sources.remote.receive.EnrollmentJson
 import com.example.proyek_mad.data.sources.remote.receive.UserJson
 import com.example.proyek_mad.data.sources.remote.request.CreateQuizAttemptRequest
 import com.example.proyek_mad.data.sources.remote.request.EditPenggunaRequest
+import com.example.proyek_mad.data.sources.remote.request.GeminiRequest
 import com.example.proyek_mad.data.sources.remote.request.LoginRequest
 import com.example.proyek_mad.data.sources.remote.request.NextMateriRequest
 import com.example.proyek_mad.data.sources.remote.request.QuizAnswerRequest
@@ -22,19 +25,27 @@ import com.example.proyek_mad.data.sources.remote.request.ScoreQuizRequest
 import com.example.proyek_mad.data.sources.remote.response.BasicResponse
 
 class MyDefaultRepository(
-//    private val localDataSource: LocalDataSource,
+    private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource
 ):MyRepository {
     override suspend fun login(request: LoginRequest): User {
         remoteDataSource.login(request).onSuccess {it->
+            localDataSource.insertUser(it.toUser().toUserEntity())
             return it.toUser()
         }.onFailure {
            err->
             Log.e("error", err.toString(), )
+            val user = localDataSource.getUserByEmailAndPassword(request.username, request.password)
+            if(user!=null){
+                MockDB.onlineMode =false
+                return user.toUser()
+            }
         }
-
-
         return User(0, "", "", "", "")
+    }
+
+    override suspend fun updateUser(user: User) {
+        localDataSource.insertUser(user.toUserEntity())
     }
 
     override suspend fun register(request: RegisterRequest): Result<BasicResponse> {
@@ -54,8 +65,24 @@ class MyDefaultRepository(
         }
     }
 
-    override suspend fun getCourseById(courseId: Int): Result<Course> {
-        return remoteDataSource.getCourseById(courseId).map { it.toCourse() }
+    override suspend fun getCourseById(courseId: Int, userId: Int): Result<Course> {
+        if(MockDB.onlineMode){
+            return remoteDataSource.getCourseById(courseId, userId).map { it.toCourse() }
+        } else{
+            val course = localDataSource.getCourseById(courseId, userId)
+            if(course != null){
+                return Result.success(course.toCourse())
+            }
+        }
+        return Result.failure(Exception("Something went wrong"))
+    }
+
+    override suspend fun downloadCourse(course: Course, userId: Int, modules:List<Module>){
+        localDataSource.insertCourse(course.toCourseEntity(userId))
+        modules.forEach { it->
+            localDataSource.insertModule(it.toModuleEntity())
+        }
+
     }
 
     override suspend fun getOngoingCourse(userId: Int): Result<List<Course>> {
@@ -69,26 +96,53 @@ class MyDefaultRepository(
             list.map { it.toCourse() }
         }
     }
+    override suspend fun getOfflineCourse(userId: Int):List<Course>{
+        return localDataSource.getCoursesByUserId(userId).map {
+            it->it.toCourse()
+        }
+    }
+
+    override suspend fun deleteCourse(course: Course, userId: Int) {
+        localDataSource.deleteCourse(course.toCourseEntity(userId))
+    }
 
     override suspend fun enrollUserToCourse(kelasId: Int, userId: Int): Result<BasicResponse> {
         return remoteDataSource.enrollUserToCourse(kelasId, userId)
     }
-    // Material Operation
 
+    // Material Operation
     override suspend fun getMaterialsByCourse(courseId: Int): Result<List<Module>> {
-        return remoteDataSource.getMaterialsByCourse(courseId).map { list->
-            list.map { it.toMaterial() }
+        if(MockDB.onlineMode){
+            return remoteDataSource.getMaterialsByCourse(courseId).map { list->
+                list.map { it.toMaterial() }
+            }
         }
+        var result = localDataSource.getModulesByCourseId(courseId).map {
+            it.toModule()
+        }
+        if (result !=null){
+            return Result.success(result)
+        }
+        return Result.failure(Exception("Something went wrong"))
     }
 
     override suspend fun getMaterialById(materialId: Int): Result<Module> {
-        return remoteDataSource.getMaterialById(materialId).map {
-            it.toMaterial()
+        if(MockDB.onlineMode){
+            return remoteDataSource.getMaterialById(materialId).map {
+                it.toMaterial()
+            }
         }
+        var result = localDataSource.getModule(materialId)?.toModule()
+        if (result !=null){
+            return Result.success(result)
+        }
+        return Result.failure(Exception("Something went wrong"))
     }
 
     override suspend fun nextMateri(nextMateriRequest: NextMateriRequest) {
+        if(MockDB.onlineMode){
             remoteDataSource.nextMateri(nextMateriRequest)
+        }
     }
     // Quiz
 
@@ -159,6 +213,11 @@ class MyDefaultRepository(
         return remoteDataSource.jawabSoal(quizAnswerRequest, soal_id).map {
             it.toQuizAttempt()
         }
+    }
+
+    // gemini
+    override suspend fun askGemini(geminiRequest: GeminiRequest): Result<BasicResponse> {
+        return remoteDataSource.askGemini(geminiRequest)
     }
 
 }

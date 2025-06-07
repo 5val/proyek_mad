@@ -34,6 +34,7 @@ class ModuleFragment : Fragment() {
 
         viewModel.init()
         binding.lifecycleOwner = this
+        var minMateri = 0
 
         fun updateProgress() {
             val max = viewModel.maxMateri.value ?: 1
@@ -58,12 +59,15 @@ class ModuleFragment : Fragment() {
         binding.btnAskGemini.setOnClickListener {
             findNavController().navigate(R.id.action_moduleFragment_to_geminiFragment)
         }
+        if(!MockDB.onlineMode){
+            binding.btnAskGemini.isEnabled = false
+        }
 
         val observer = Observer<Result<Module>>{it ->
             it.onSuccess {
                 binding.txtModuleTitleCard.setText(it.judul_materi.toString())
                 binding.txtModuleContent.setText(it.konten_materi.toString())
-                if (MockDB.selectedMateri == 1) {
+                if (MockDB.selectedMateri == minMateri) {
                     binding.btnPrevious.isEnabled = false
                 } else {
                     binding.btnPrevious.isEnabled = true
@@ -77,7 +81,10 @@ class ModuleFragment : Fragment() {
             }
         }
         viewModel.module.observe(viewLifecycleOwner, observer)
-
+        viewModel.minMateri.observe(viewLifecycleOwner){it->
+            minMateri = it
+            viewModel.refresh()
+        }
         val observerToast = Observer<String>{it ->
             Toast.makeText(this.context, it.toString(), Toast.LENGTH_SHORT).show()
         }

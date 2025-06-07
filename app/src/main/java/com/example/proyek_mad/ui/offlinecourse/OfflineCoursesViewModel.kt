@@ -21,11 +21,13 @@ class OfflineCoursesViewModel(
     }
     fun getAll(){
         viewModelScope.launch {
-            _offlineCourses.value = MockDB.courses
+            _offlineCourses.value = myRepository.getOfflineCourse(MockDB.currentUser.user_id)
         }
     }
     fun deleteCourse(course:Course){
-        MockDB.courses = MockDB.courses.filter { it.kelas_id != course.kelas_id }
-        refresh()
+        viewModelScope.launch {
+            myRepository.deleteCourse(course, MockDB.currentUser.user_id)
+            refresh()
+        }
     }
 }

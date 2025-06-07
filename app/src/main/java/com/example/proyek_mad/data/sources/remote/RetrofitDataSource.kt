@@ -13,6 +13,7 @@ import com.example.proyek_mad.data.sources.remote.receive.UserJson
 import com.example.proyek_mad.data.sources.remote.request.CreateQuizAttemptRequest
 import com.example.proyek_mad.data.sources.remote.request.EditPenggunaRequest
 import com.example.proyek_mad.data.sources.remote.request.EnrollmentRequest
+import com.example.proyek_mad.data.sources.remote.request.GeminiRequest
 import com.example.proyek_mad.data.sources.remote.request.LoginRequest
 import com.example.proyek_mad.data.sources.remote.request.NextMateriRequest
 import com.example.proyek_mad.data.sources.remote.request.QuizAnswerRequest
@@ -32,7 +33,7 @@ class RetrofitDataSource(private val apiService: WebService) : RemoteDataSource 
             } else {
                 // Handle API errors (e.g., 400, 500 status codes)
                 val errorBody = response.errorBody()?.string() ?: "Unknown error"
-                Result.failure(RuntimeException("API Error: ${response.code()} - $errorBody"))
+                Result.failure(RuntimeException("$errorBody"))
             }
         } catch (e: Exception) {
             // Handle network errors (e.g., no internet connection, timeout)
@@ -58,8 +59,8 @@ class RetrofitDataSource(private val apiService: WebService) : RemoteDataSource 
         return safeApiCall { apiService.getAllPublishedCourses(userId) }
     }
 
-    override suspend fun getCourseById(courseId: Int): Result<CourseJson> {
-        return safeApiCall { apiService.getCourseById(courseId) }
+    override suspend fun getCourseById(courseId: Int, userId: Int): Result<CourseJson> {
+        return safeApiCall { apiService.getCourseById(courseId, userId) }
     }
 
     override suspend fun getOngoingCourse(userId: Int): Result<List<CourseJson>> {
@@ -146,5 +147,9 @@ class RetrofitDataSource(private val apiService: WebService) : RemoteDataSource 
         soal_id: Int
     ): Result<QuizAttemptJson> {
         return safeApiCall { apiService.jawabSoal(quizAnswerRequest, soal_id) }
+    }
+    // gemini
+    override suspend fun askGemini(geminiRequest: GeminiRequest):Result<BasicResponse>{
+        return safeApiCall { apiService.askGemini(geminiRequest) }
     }
 }

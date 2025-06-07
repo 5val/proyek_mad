@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.CreationExtras
+import com.example.proyek_mad.ui.askgemini.GeminiViewModel
 import com.example.proyek_mad.ui.detailkelas.CourseDetailViewModel
 import com.example.proyek_mad.ui.home.HomeViewModel
 import com.example.proyek_mad.ui.listkelas.CoursesViewModel
@@ -35,6 +36,8 @@ val MyViewModelFactory = object : ViewModelProvider.Factory {
                     ProfileViewModel(myRepository)
                 isAssignableFrom(LoginRegisterViewModel::class.java) ->
                     LoginRegisterViewModel(myRepository)
+                isAssignableFrom(GeminiViewModel::class.java) ->
+                    GeminiViewModel(myRepository)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

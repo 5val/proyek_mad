@@ -8,12 +8,13 @@ import com.example.proyek_mad.data.sources.local.User.UserEntity
 interface LocalDataSource {
     // Course methods
     suspend fun getCoursesByUserId(userId: Int): List<CourseEntity>
-    suspend fun getCourseById(courseId: Int): CourseEntity?
+    suspend fun getCourseById(courseId: Int, userId: Int): CourseEntity?
     suspend fun insertCourse(courseEntity: CourseEntity): CourseEntity
     suspend fun deleteCourse(courseEntity: CourseEntity): CourseEntity
 
     // Module methods
     suspend fun getModulesByCourseId(courseId: Int): List<ModuleEntity>
+    suspend fun getModule(moduleId:Int):ModuleEntity?
     suspend fun insertModule(moduleEntity: ModuleEntity): ModuleEntity
     suspend fun deleteModule(moduleEntity: ModuleEntity): ModuleEntity
 

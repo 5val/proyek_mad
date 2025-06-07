@@ -3,6 +3,7 @@ package com.example.proyek_mad.data.sources.local.Course
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.proyek_mad.data.sources.local.data_class.CourseWithProgress
@@ -13,10 +14,10 @@ interface CourseDao {
     @Query("SELECT * FROM kelas WHERE user_id = :userId")
     suspend fun getCourseByUserId(userId: Int): List<CourseEntity>
 
-    @Query("SELECT * FROM kelas WHERE kelas_id = :courseId")
-    suspend fun getCourseById(courseId: Int): CourseEntity?
+    @Query("SELECT * FROM kelas WHERE kelas_id = :courseId AND user_id = :userId")
+    suspend fun getCourseById(courseId: Int, userId: Int): CourseEntity?
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCourse(courseEntity: CourseEntity)
 
     @Delete

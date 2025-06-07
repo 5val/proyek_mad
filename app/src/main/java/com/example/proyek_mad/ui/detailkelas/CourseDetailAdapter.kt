@@ -47,10 +47,10 @@ class CourseDetailAdapter:ListAdapter<Module, CourseDetailAdapter.ViewHolder>(co
         }
         if(materiku.materi_id > last_kelas && position>0){
             holder.binding.root.isEnabled = false
-            holder.binding.root.alpha = 0.5f
+            holder.binding.txtModuleTitleCard.alpha = 0.5f
         } else{
             holder.binding.root.isEnabled = true
-            holder.binding.root.alpha = 1f
+            holder.binding.txtModuleTitleCard.alpha = 1f
 
         }
     }

@@ -30,39 +30,57 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var completedCourseAdapter = CoursesAdapter()
-        var ongoingCourseAdapter = CoursesAdapter()
 
-        completedCourseAdapter.onItemClickListener = {course ->
-            MockDB.selectedKelas = course.kelas_id
-            findNavController().navigate(R.id.action_global_courseDetailFragment)
-        }
-        ongoingCourseAdapter.onItemClickListener = {course ->
-            MockDB.selectedKelas = course.kelas_id
-            findNavController().navigate(R.id.action_global_courseDetailFragment)
-        }
+        if(MockDB.onlineMode){
+            binding.refreshbtntv.visibility = View.GONE
+            binding.offlineModetv.visibility = View.GONE
+            var completedCourseAdapter = CoursesAdapter()
+            var ongoingCourseAdapter = CoursesAdapter()
+            completedCourseAdapter.onItemClickListener = {course ->
+                MockDB.selectedKelas = course.kelas_id
+                findNavController().navigate(R.id.action_global_courseDetailFragment)
+            }
+            ongoingCourseAdapter.onItemClickListener = {course ->
+                MockDB.selectedKelas = course.kelas_id
+                findNavController().navigate(R.id.action_global_courseDetailFragment)
+            }
 
-        binding.rvOngoingCoursesHome.adapter = ongoingCourseAdapter
-        binding.rvOngoingCoursesHome.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+            binding.rvOngoingCoursesHome.adapter = ongoingCourseAdapter
+            binding.rvOngoingCoursesHome.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
 
-        binding.rvCompletedCoursesProfile.adapter = completedCourseAdapter
-        binding.rvCompletedCoursesProfile.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+            binding.rvCompletedCoursesProfile.adapter = completedCourseAdapter
+            binding.rvCompletedCoursesProfile.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
 
-        viewModel.ongoingCourses.observe(viewLifecycleOwner) { result ->
-            result.onSuccess { courseList ->
-                ongoingCourseAdapter.submitList(courseList)
-            }.onFailure { error ->
+            viewModel.ongoingCourses.observe(viewLifecycleOwner) { result ->
+                result.onSuccess { courseList ->
+                    ongoingCourseAdapter.submitList(courseList)
+                }.onFailure { error ->
 //                Toast.makeText(this.context, "Error fetching ongoing", Toast.LENGTH_SHORT).show()
+                }
             }
-        }
-        viewModel.completedCourses.observe(viewLifecycleOwner) { result ->
-            result.onSuccess { courseList ->
-                completedCourseAdapter.submitList(courseList)
-            }.onFailure { error ->
+            viewModel.completedCourses.observe(viewLifecycleOwner) { result ->
+                result.onSuccess { courseList ->
+                    completedCourseAdapter.submitList(courseList)
+                    binding.txtUserLevel.setText("Course selesai: "+courseList.size.toString())
+                }.onFailure { error ->
 //                Toast.makeText(this.context, "Error fetching completed", Toast.LENGTH_SHORT).show()
+                }
+            }
+            viewModel.getAll()
+        } else{
+            binding.rvOngoingCoursesHome.visibility = View.GONE
+            binding.rvCompletedCoursesProfile.visibility = View.GONE
+            binding.refreshbtntv.setOnClickListener{
+                viewModel.checkOnline()
+            }
+            viewModel.onlineCheck.observe(viewLifecycleOwner){it->
+                if(it.user_id == 0){
+                    Toast.makeText(this.context, "Gagal menyambung server", Toast.LENGTH_SHORT).show()
+                } else{
+                    MockDB.onlineMode = true
+                    findNavController().navigate(R.id.action_global_homeFragment)
+                }
             }
         }
-        viewModel.getAll()
     }
-
 }

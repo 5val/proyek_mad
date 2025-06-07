@@ -11,6 +11,7 @@ import com.example.proyek_mad.data.sources.remote.receive.QuizJson
 import com.example.proyek_mad.data.sources.remote.receive.UserJson
 import com.example.proyek_mad.data.sources.remote.request.CreateQuizAttemptRequest
 import com.example.proyek_mad.data.sources.remote.request.EditPenggunaRequest
+import com.example.proyek_mad.data.sources.remote.request.GeminiRequest
 import com.example.proyek_mad.data.sources.remote.request.LoginRequest
 import com.example.proyek_mad.data.sources.remote.request.NextMateriRequest
 import com.example.proyek_mad.data.sources.remote.request.QuizAnswerRequest
@@ -25,7 +26,7 @@ interface RemoteDataSource {
 
     // Course and Enrollment Operations
     suspend fun getAllPublishedCourses(userId:Int): Result<List<CourseJson>>
-    suspend fun getCourseById(courseId: Int): Result<CourseJson>
+    suspend fun getCourseById(courseId: Int, userId: Int): Result<CourseJson>
     suspend fun getOngoingCourse(userId: Int): Result<List<CourseJson>>
     suspend fun getCompletedCourse(userId: Int): Result<List<CourseJson>>
     suspend fun enrollUserToCourse(kelasId: Int, userId: Int): Result<BasicResponse>
@@ -46,4 +47,7 @@ interface RemoteDataSource {
     suspend fun startKuis(createQuizAttemptRequest: CreateQuizAttemptRequest, kuis_id: Int): Result<QuizAttemptJson>
     suspend fun nilaiKuis(scoreQuizRequest: ScoreQuizRequest, attempt_id: Int?): Result<EnrollmentJson>
     suspend fun jawabSoal(quizAnswerRequest: QuizAnswerRequest, soal_id: Int): Result<QuizAttemptJson>
+
+    // gemini
+    suspend fun askGemini(geminiRequest: GeminiRequest):Result<BasicResponse>
 }
