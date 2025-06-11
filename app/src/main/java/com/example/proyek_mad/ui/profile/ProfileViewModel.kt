@@ -39,12 +39,14 @@ class ProfileViewModel(
                     name
                 )
             )
+            MockDB.currentUser.password = password
+            MockDB.currentUser.nama_lengkap = name
 
         }
     }
     fun updateMockDB(){
         viewModelScope.launch {
-            MockDB.currentUser = myRepository.login(LoginRequest(MockDB.currentUser.email, MockDB.currentUser.password))
+//            MockDB.currentUser = myRepository.login(LoginRequest(MockDB.currentUser.email, MockDB.currentUser.password))
             myRepository.updateUser(MockDB.currentUser)
             init()
         }

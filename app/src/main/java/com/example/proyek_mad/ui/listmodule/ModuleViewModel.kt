@@ -20,6 +20,10 @@ class ModuleViewModel(
     val module: LiveData<Result<Module>>
         get() = _module
 
+    private val _modules = MutableLiveData<List<Module>>()
+    val modules: LiveData<List<Module>>
+        get() = _modules
+
     private val _toastku = MutableLiveData<String>()
     val toastku:LiveData<String>
         get() = _toastku
@@ -31,6 +35,14 @@ class ModuleViewModel(
     val minMateri:LiveData<Int>
         get() = _minMateri
 
+    private val _totalMateri = MutableLiveData<Int>()
+    val totalMateri:LiveData<Int>
+        get() = _totalMateri
+
+    private val _urutanMateri = MutableLiveData<Int>()
+    val urutanMateri: LiveData<Int>
+        get() = _urutanMateri
+
 
     fun init() {
         viewModelScope.launch {
@@ -38,6 +50,12 @@ class ModuleViewModel(
 //            _maxMateri.value = MockDB.modules.filter { it.kelas_id == MockDB.selectedKelas }.maxOfOrNull { it.materi_id } ?: 0
             _module.value = myRepository.getMaterialById(MockDB.selectedMateri)
             var allMateri = myRepository.getMaterialsByCourse(MockDB.selectedKelas)
+
+            allMateri.onSuccess {
+                _totalMateri.value = it.size
+                _modules.value = it
+            }
+
             _maxMateri.value = allMateri?.getOrNull()
                 ?.maxOfOrNull { it.materi_id }
                 ?: 0
@@ -60,6 +78,34 @@ class ModuleViewModel(
         viewModelScope.launch {
             myRepository.nextMateri(NextMateriRequest(MockDB.currentUser.user_id, MockDB.selectedKelas, MockDB.selectedMateri))
             _module.value = myRepository.getMaterialById(MockDB.selectedMateri)
+            findUrutan()
+        }
+    }
+
+    fun findUrutan() {
+        // 1. Ambil list of modules dari LiveData.
+        //    Gunakan .getOrNull() untuk mendapatkan list jika Result-nya success, atau null jika failure.
+        val listOfModules = _modules.value!!
+
+        // Ambil materi yang sedang dipilih
+        val selectedMateri = MockDB.selectedMateri
+
+        // 2. Pastikan list dan materi yang dipilih tidak null
+        if (listOfModules != null && selectedMateri != null) {
+            // 3. Cari indeks dari materi yang dipilih di dalam list
+            val index = listOfModules.indexOfFirst { it.materi_id == selectedMateri }
+
+            // 4. Jika materi ditemukan (indeks bukan -1)
+            if (index != -1) {
+                // 5. Update LiveData dengan nomor urutan (indeks + 1 karena indeks mulai dari 0)
+                _urutanMateri.value = index + 1
+            } else {
+                // Handle jika karena suatu alasan materi yang dipilih tidak ada di dalam list
+                _urutanMateri.value = 0
+            }
+        } else {
+            // Handle jika list materi belum ada (masih loading atau error)
+            _urutanMateri.value = 0
         }
     }
 

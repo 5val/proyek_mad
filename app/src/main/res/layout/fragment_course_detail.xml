@@ -39,34 +39,15 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/txtCourseLevel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:padding="4dp"
-                        android:text="Beginner"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/txtCourseTitle" />
-
-                    <TextView
-                        android:id="@+id/txtCourseDuration"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:drawableStart="@drawable/baseline_access_time_24"
-                        android:drawablePadding="4dp"
-                        android:text="10 hours"
-                        app:layout_constraintBottom_toBottomOf="@+id/txtCourseLevel"
-                        app:layout_constraintStart_toEndOf="@id/txtCourseLevel"
-                        app:layout_constraintTop_toTopOf="@+id/txtCourseLevel" />
-
-                    <TextView
                         android:id="@+id/txtCourseDesc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="Course description goes here..."
-                        app:layout_constraintTop_toBottomOf="@id/txtCourseLevel" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txtCourseTitle" />
 
                     <ProgressBar
                         android:id="@+id/courseProgressBar"

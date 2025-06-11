@@ -35,13 +35,16 @@ class ModuleFragment : Fragment() {
         viewModel.init()
         binding.lifecycleOwner = this
         var minMateri = 0
+        var maxMateri = 0
 
-        fun updateProgress() {
-            val max = viewModel.maxMateri.value ?: 1
-            val current = MockDB.selectedMateri
-            binding.progressIndicator.max = max
-            binding.progressIndicator.progress = current
-        }
+
+//        fun updateProgress() {
+////            val max = viewModel.maxMateri.value ?: 1
+//            val current = MockDB.selectedMateri
+//            binding.progressIndicator.max = totalMateri
+//            binding.progressIndicator.progress = current
+//            Toast.makeText(this.context, totalMateri.toString(), Toast.LENGTH_SHORT).show()
+//        }
 
         binding.btnPrevious.setOnClickListener {
             viewModel.previous()
@@ -67,7 +70,7 @@ class ModuleFragment : Fragment() {
             it.onSuccess {
                 binding.txtModuleTitleCard.setText(it.judul_materi.toString())
                 binding.txtModuleContent.setText(it.konten_materi.toString())
-                if (MockDB.selectedMateri == minMateri) {
+                if (MockDB.selectedMateri == viewModel.minMateri.value) {
                     binding.btnPrevious.isEnabled = false
                 } else {
                     binding.btnPrevious.isEnabled = true
@@ -77,14 +80,26 @@ class ModuleFragment : Fragment() {
                 } else {
                     binding.btnNext.isEnabled = true
                 }
-                updateProgress()
+//                updateProgress()
             }
         }
         viewModel.module.observe(viewLifecycleOwner, observer)
         viewModel.minMateri.observe(viewLifecycleOwner){it->
-            minMateri = it
+//            minMateri = it
+//            updateProgress()
             viewModel.refresh()
         }
+        viewModel.maxMateri.observe(viewLifecycleOwner){it->
+//            maxMateri = it
+//            updateProgress()
+            viewModel.refresh()
+        }
+
+        viewModel.urutanMateri.observe(viewLifecycleOwner){it->
+            binding.progressIndicator.max = viewModel.totalMateri.value
+            binding.progressIndicator.progress = it
+        }
+
         val observerToast = Observer<String>{it ->
             Toast.makeText(this.context, it.toString(), Toast.LENGTH_SHORT).show()
         }
