@@ -110,12 +110,18 @@ class ModuleViewModel(
     }
 
     fun next() {
-        MockDB.selectedMateri += 1
+        var listOfModules = _modules.value!!
+        var index = listOfModules.indexOfFirst { it.materi_id == MockDB.selectedMateri }
+        MockDB.selectedMateri = listOfModules[index+1].materi_id
+//        MockDB.selectedMateri += 1
         refresh()
     }
 
     fun previous() {
-        MockDB.selectedMateri -= 1
+        var listOfModules = _modules.value!!
+        var index = listOfModules.indexOfFirst { it.materi_id == MockDB.selectedMateri }
+        MockDB.selectedMateri = listOfModules[index-1].materi_id
+//        MockDB.selectedMateri -= 1
         refresh()
     }
 }
