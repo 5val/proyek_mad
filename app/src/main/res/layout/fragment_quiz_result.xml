@@ -19,7 +19,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="Hasil Kuis"
-            android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -30,13 +29,12 @@
             android:id="@+id/txtNilaiQuiz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text='@{"Nilai: " + String.valueOf(vm.nilaiUser)}'
             android:textSize="20sp"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/txtResultTitle"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtResultTitle" />
 
         <TextView
             android:id="@+id/txtJawabanBenarQuiz"
