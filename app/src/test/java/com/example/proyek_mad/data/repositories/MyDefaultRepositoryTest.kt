@@ -1,13 +1,18 @@
 package com.example.proyek_mad.data.repositories
 
 import com.example.proyek_mad.data.*
+import com.example.proyek_mad.data.repositories.MyDefaultRepository
 import com.example.proyek_mad.data.sources.local.LocalDataSource
 import com.example.proyek_mad.data.sources.remote.RemoteDataSource
 import com.example.proyek_mad.data.sources.remote.receive.*
 import com.example.proyek_mad.data.sources.remote.request.*
 import com.example.proyek_mad.data.sources.remote.response.BasicResponse
+import io.mockk.coEvery
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
+import org.mockito.Mockito.mock
+import org.mockito.kotlin.whenever
 
 class MyDefaultRepositoryTest {
     private lateinit var repository: MyDefaultRepository
@@ -22,16 +27,12 @@ class MyDefaultRepositoryTest {
     @Test
     fun `register - returns success response`() = runTest {
         // Arrange
-        val request = RegisterRequest("test@email.com", "password", "Test User")
+        val request = RegisterRequest("test@email.com", "password", "Test User", "")
         val response = BasicResponse("Success")
-        whenever(remoteDataSource.register(request)).thenReturn(Result.success(response))
-
-        // Act
+        coEvery { (remoteDataSource.register(request)) } returns (Result.success(response))
         val result = repository.register(request)
-
-        // Assert
         assert(result.isSuccess)
-        assert(result.getOrNull()?.message == "Success")
+        assert(result.getOrNull()?.msg == "Success")
     }
 
     @Test
