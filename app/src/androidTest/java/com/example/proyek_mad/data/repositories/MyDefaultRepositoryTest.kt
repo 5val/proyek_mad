@@ -6,10 +6,8 @@ import com.example.proyek_mad.data.sources.remote.RemoteDataSource
 import com.example.proyek_mad.data.sources.remote.receive.*
 import com.example.proyek_mad.data.sources.remote.request.*
 import com.example.proyek_mad.data.sources.remote.response.BasicResponse
-import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import org.mockito.kotlin.*
 
 class MyDefaultRepositoryTest {
     private lateinit var repository: MyDefaultRepository
