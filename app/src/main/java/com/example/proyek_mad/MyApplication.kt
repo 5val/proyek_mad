@@ -24,7 +24,7 @@ class MyApplication:Application() {
         val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
         val retrofit = Retrofit.Builder().addConverterFactory(
             MoshiConverterFactory.create(moshi)
-        ).baseUrl("http://<>:8000/api/").build()
+        ).baseUrl("http://vpscbt2.mysites.my.id/api/").build()
         val retrofitService = retrofit.create(WebService::class.java)
         myRepository = MyDefaultRepository(
             RoomDataSource(AppDatabase.getInstance(baseContext)),

@@ -69,6 +69,7 @@ class ModuleFragment : Fragment() {
         val observer = Observer<Result<Module>>{it ->
             it.onSuccess {
                 binding.txtModuleTitleCard.setText(it.judul_materi.toString())
+                binding.txtModuleDescription.setText(it.deskripsi_singkat.toString())
                 binding.txtModuleContent.setText(it.konten_materi.toString())
                 if (MockDB.selectedMateri == viewModel.minMateri.value) {
                     binding.btnPrevious.isEnabled = false

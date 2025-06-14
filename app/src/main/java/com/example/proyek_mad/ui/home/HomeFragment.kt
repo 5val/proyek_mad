@@ -58,6 +58,7 @@ class HomeFragment : Fragment() {
 //                Toast.makeText(this.context, "Error fetching ongoing", Toast.LENGTH_SHORT).show()
                 }
             }
+            binding.txtUserLevel.setText("Course selesai: 0")
             viewModel.completedCourses.observe(viewLifecycleOwner) { result ->
                 result.onSuccess { courseList ->
                     completedCourseAdapter.submitList(courseList)
