@@ -26,7 +26,7 @@ class MainActivityTest {
 
     @Test
     fun navigateToRegisterFragment() {
-        onView(withId(R.id.register_mi))
+        onView(withId(R.id.linkToReg))
             .perform(click())
         onView(withId(R.id.constraint_register))
             .check(matches(isDisplayed()))
@@ -34,12 +34,12 @@ class MainActivityTest {
 
     @Test
     fun navigateBackToLoginFragment() {
-        onView(withId(R.id.register_mi))
+        onView(withId(R.id.linkToReg))
             .perform(click())
         onView(withId(R.id.constraint_register))
             .check(matches(isDisplayed()))
 
-        onView(withId(R.id.login_mi))
+        onView(withId(R.id.linkToLogin))
             .perform(click())
         onView(withId(R.id.constraint_login))
             .check(matches(isDisplayed()))
