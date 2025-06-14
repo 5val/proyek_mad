@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/txtGeminiMessage"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_bubble_gemini"
         android:padding="12dp"
@@ -18,14 +18,13 @@
         android:textSize="14sp"
         app:layout_constrainedHeight="true"
         app:layout_constrainedWidth="true"
-        app:layout_constraintEnd_toStartOf="@+id/txtUserMessage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Chat bubble User (right) -->
     <TextView
         android:id="@+id/txtUserMessage"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_bubble_user"
         android:padding="12dp"
@@ -37,7 +36,6 @@
         app:layout_constrainedHeight="true"
         app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/txtGeminiMessage"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

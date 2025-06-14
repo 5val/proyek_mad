@@ -7,53 +7,66 @@
         android:id="@+id/constraint_gemini"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
         tools:context=".ui.askgemini.GeminiFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/headerLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="#9A8A2BE2"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_bubble_gemini"
+            android:padding="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/rvChats"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
-            <Button
-                android:id="@+id/btnBackChat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:backgroundTint="#2E7DFF"
-                android:text="Back"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/txtAskGeminiTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="16dp"
                 android:text="Ask Gemini"
-                android:textAlignment="textEnd"
+                android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@id/btnBackChat"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btnBackChat"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/btnBackChat" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <Button
+            android:id="@+id/btnBackChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="#9D9D9D"
+            android:text="Back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <!-- RecyclerView untuk chat -->
+        <ImageView
+            android:id="@+id/imageView10"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/batik_2" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvChats"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
             android:clipToPadding="false"
             android:paddingBottom="16dp"
             app:layout_constraintBottom_toTopOf="@+id/chatInputLayout"
@@ -66,6 +79,8 @@
             android:id="@+id/chatInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:background="@color/white"
             android:elevation="8dp"
