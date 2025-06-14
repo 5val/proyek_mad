@@ -8,6 +8,7 @@
             type="com.example.proyek_mad.ui.detailkelas.CourseDetailViewModel" />
     </data>
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/constraint_course_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.detailkelas.CourseDetailFragment">

@@ -1,6 +1,7 @@
 package com.example.proyek_mad.data.repositories
 
 import com.example.proyek_mad.data.Course
+import com.example.proyek_mad.data.MockDB
 import com.example.proyek_mad.data.Module
 import com.example.proyek_mad.data.Option
 import com.example.proyek_mad.data.Question
@@ -91,9 +92,9 @@ class MyDefaultRepositoryTest2 {
         repository = MyDefaultRepository(localDataSource, remoteDataSource)
 
         // Initialize Dummy Storage
-        dummyUser = User(1, "test@example.com", "Test User", "password", "token")
+        dummyUser = User(1, "test@example.com", "Test User", "password", "test")
         dummyUserEntity = UserEntity(1, "test@example.com", "Test User", "password", "")
-        dummyRemoteUser = UserJson(1, "test@example.com", "Test User", "password", "")
+        dummyRemoteUser = UserJson(1, "test@example.com", "Test User", "password", "test")
         dummyLoginRequest = LoginRequest("test@example.com", "password")
         dummyRegisterRequest = RegisterRequest("Test User", "test@example.com", "password", "")
         dummyEditPenggunaRequest = EditPenggunaRequest("Updated User", "newpassword")
@@ -131,7 +132,7 @@ class MyDefaultRepositoryTest2 {
         // Arrange
         val remoteResult = Result.success(dummyRemoteUser)
         coEvery { remoteDataSource.login(any()) } returns remoteResult
-        coEvery { localDataSource.insertUser(any()) }
+        coEvery { localDataSource.insertUser(any()) } returns dummyUser.toUserEntity()
 
         // Act
         val result = repository.login(dummyLoginRequest)
@@ -164,7 +165,7 @@ class MyDefaultRepositoryTest2 {
 
     @Test
     fun updateUser() = runTest {
-        coEvery { localDataSource.insertUser(any()) }
+        coEvery { localDataSource.insertUser(any()) } returns dummyUser.toUserEntity()
 
         repository.updateUser(dummyUser)
 
@@ -237,8 +238,8 @@ class MyDefaultRepositoryTest2 {
 
     @Test
     fun downloadCourse() = runTest {
-        coEvery { localDataSource.insertCourse(any()) }
-        coEvery { localDataSource.insertModule(any()) }
+        coEvery { localDataSource.insertCourse(any()) } returns dummyCourse.toCourseEntity(1)
+        coEvery { localDataSource.insertModule(any()) } returns dummyModule.toModuleEntity()
 
         repository.downloadCourse(dummyCourse, 1, listOf(dummyModule))
 
@@ -282,7 +283,7 @@ class MyDefaultRepositoryTest2 {
 
     @Test
     fun deleteCourse() = runTest {
-        coEvery { localDataSource.deleteCourse(any()) }
+        coEvery { localDataSource.deleteCourse(any()) } returns dummyCourse.toCourseEntity(1)
 
         repository.deleteCourse(dummyCourse, 1)
 
@@ -323,6 +324,7 @@ class MyDefaultRepositoryTest2 {
         assertTrue(result.isSuccess)
         assertEquals(1, result.getOrNull()?.size)
         coVerify { localDataSource.getModulesByCourseId(1) }
+//        coVerify(exactly = 0) { remoteDataSource.getMaterialsByCourse(any()) }
     }
 
 
@@ -371,7 +373,8 @@ class MyDefaultRepositoryTest2 {
         val result = repository.getKuisKelas(1)
 
         assertTrue(result.isSuccess)
-        assertEquals(dummyQuiz, result.getOrNull())
+        val quizzes = dummyQuiz.toQuiz()
+        assertEquals(quizzes, result.getOrNull())
         coVerify { remoteDataSource.getKuisKelas(1) }
     }
 
@@ -393,7 +396,8 @@ class MyDefaultRepositoryTest2 {
         val result = repository.getSoalKuis(1, 1)
 
         assertTrue(result.isSuccess)
-        assertEquals(dummyQuestion, result.getOrNull())
+        val questions = dummyQuestion.toQuestion()
+        assertEquals(questions, result.getOrNull())
         coVerify { remoteDataSource.getSoalKuis(1, 1) }
     }
 
@@ -437,7 +441,8 @@ class MyDefaultRepositoryTest2 {
         val result = repository.getKuisAttemptTerakhir()
 
         assertTrue(result.isSuccess)
-        assertEquals(dummyQuizAttempt, result.getOrNull())
+        val quizAttempts = dummyQuizAttempt.toQuizAttempt()
+        assertEquals(quizAttempts, result.getOrNull())
         coVerify { remoteDataSource.getKuisAttemptTerakhir() }
     }
 
@@ -460,7 +465,9 @@ class MyDefaultRepositoryTest2 {
         val result = repository.startKuis(request, 1)
 
         assertTrue(result.isSuccess)
-        assertEquals(dummyQuizAttempt, result.getOrNull())
+
+        val quizAttempts = dummyQuizAttempt.toQuizAttempt()
+        assertEquals(quizAttempts, result.getOrNull())
         coVerify { remoteDataSource.startKuis(request, 1) }
     }
 
@@ -484,7 +491,8 @@ class MyDefaultRepositoryTest2 {
         val result = repository.jawabSoal(request, 1)
 
         assertTrue(result.isSuccess)
-        assertEquals(dummyQuizAttempt, result.getOrNull())
+        val quizAttempts = dummyQuizAttempt.toQuizAttempt()
+        assertEquals(quizAttempts, result.getOrNull())
         coVerify { remoteDataSource.jawabSoal(request, 1) }
     }
 
@@ -505,9 +513,9 @@ class MyDefaultRepositoryTest2 {
 // NOTE: You need to define the dummy data classes (User, Course, LoginRequest, etc.),
 // the to...() extension functions, and the MockDB object for this code to be complete.
 // For example:
-object MockDB {
-    var onlineMode = true
-}
+//object MockDB {
+//    var onlineMode = true
+//}
 
 // And assumed data classes and mappers:
 // data class User(val id: Int, val email: String, val name: String, val token: String, val other: String)

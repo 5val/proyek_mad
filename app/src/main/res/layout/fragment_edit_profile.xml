@@ -9,6 +9,7 @@
             type="com.example.proyek_mad.data.User" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/constraint_edit_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"

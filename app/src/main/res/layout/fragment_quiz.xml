@@ -8,6 +8,7 @@
             type="com.example.proyek_mad.ui.quiz.QuizViewModel" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/constraint_quiz"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.quiz.QuizFragment">

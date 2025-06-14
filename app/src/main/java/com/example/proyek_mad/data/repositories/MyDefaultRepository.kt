@@ -34,7 +34,7 @@ class MyDefaultRepository(
             return it.toUser()
         }.onFailure {
            err->
-            Log.e("error", err.toString(), )
+//            Log.e("error", err.toString(), )
             val user = localDataSource.getUserByEmailAndPassword(request.username, request.password)
             if(user!=null){
                 MockDB.onlineMode =false
